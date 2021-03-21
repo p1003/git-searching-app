@@ -11,3 +11,10 @@ export async function requestUser(username: string) {
     console.log(data);
     return data;
 }
+
+export async function requestCollaborators(username: string, repo: string) {
+    const response = await fetch(`https://api.github.com/users/${username}/${repo}/`);
+    const data = await response.json();
+    console.log(data);
+    return data;
+}
