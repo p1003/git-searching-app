@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {FC} from 'react';
 
-function UserView () {
+export const UserView: FC = () => {
     return (
         <div>
 
         </div>
     )
 }
-export default UserView;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, FC} from 'react';
-import {RequestRepo} from "../../API";
+import {requestRepo} from "../../API";
 import {User} from "../User";
 
 type RepoViewProps = {
@@ -12,7 +12,7 @@ export const RepoView: FC<RepoViewProps> = props => {
     const [data, setData] = useState<null | any>(null);
 
     useEffect(() => {
-        setData(RequestRepo("door-manager"));
+        // setData(requestRepo(props.username,props.repoName));
     }, [data]);
 
     function collaboratorsList() {
@@ -30,6 +30,8 @@ export const RepoView: FC<RepoViewProps> = props => {
 
     return (
         <div className="RepoView">
+            <p>{props.username}</p>
+            <p>{props.repoName}</p>
             {data && collaboratorsList()}
         </div>
     )

@@ -1,27 +1,20 @@
 import React, {FC, useState} from 'react';
-import {RequestUserRepos} from "../../API";
 import {Repo} from "../Repo";
-import { RepoView } from '../RepoView';
 
-export const MainView: FC = () => {
+type MainViewProps = {
+    userRepos : any;
+    setRepoName : (name : string) => void;
+}
 
-
-    const [username, setUsername] = useState("");
-    const [data, setData] = useState<null | any>(null);
-    const [repoName, setRepoName] = useState<null | any>(null);
-
-    const onSearchClick = async () => {
-        setRepoName(null);
-        setData(RequestUserRepos(username));
-    };
+export const MainView: FC<MainViewProps> = props => {
 
     const repoClick = (text: string) => {
-        console.log(text);
-        setRepoName(text);
+        props.setRepoName(text);
     };
 
     function reposList() {
-        const list = data.map((repo : any) =>
+        console.log(props.userRepos);
+        const list = props.userRepos.map((repo : any) =>
             <li key={repo.id}>
                 <Repo name={repo.name} url={repo.html_url} clickHandler={repoClick}/>
             </li>
@@ -35,16 +28,7 @@ export const MainView: FC = () => {
 
     return (
         <div className="MainView">
-            <input type="text" value={username}
-                onChange={e => setUsername(e.target.value)}/>
-            <button onClick={onSearchClick}>Search</button>
-            {repoName ? 
-                <RepoView username={username} repoName={repoName}/> 
-            : 
-            <div>
-                {data && reposList()}
-            </div>
-            }
+            {props.userRepos && reposList()}
         </div>
     )
 }
