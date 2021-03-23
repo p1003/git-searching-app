@@ -1,0 +1,15 @@
+Zadanie polega na wykonaniu aplikacji, która w oparciu o dostępne API Github, będzie wyszukiwała repozytoria oraz użytkowników.
+
+Założenia aplikacji:
+
+- Dane pobrane powinny być prezentowane w sposób atrakcyjny i przejrzysty.
+- Należy zaimplementować dostępne parametry z API takie jak "sort", "direction", "per_page", "page" itp.
+- Dodatkowo dla repozytoriów powinna być pobierana lista commitów i użytkowników pracujących w ramach danego repozytorium. Kliknięcie w użytkownika spowoduje przejście na inną podstronę i wyświetlenie informacji o tym użytkowniku.
+- Cała aplikacja powinna być napisana w React + Typescript bez wykorzystania frameworków CSS'owych.
+
+
+Projekt:
+Searchbar do wpisania nazwy użytkownika.
+Po znalezieniu wyświetlają się informacje o użytkowniku i jego repozytoria
+Po wybraniu repozytorium otwiera się nowy widok z zakładką commitów oraz użytkowników
+Wybór użytkownika powoduje przejście na podstronę z jego informacjami.
