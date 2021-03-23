@@ -1,20 +1,49 @@
-export async function requestUserRepos(username: string) {
-    const response = await fetch(`https://api.github.com/users/${username}/repos`);
-    const data = await response.json();
-    console.log(data);
-    return data;
-}
+import { useQuery } from "react-query";
 
-export async function requestUser(username: string) {
-    const response = await fetch(`https://api.github.com/users/${username}`);
-    const data = await response.json();
-    console.log(data);
-    return data;
-}
+export const RequestUserRepos = (username: string) =>
+    useQuery<{name : string}[]>(
+        ["repo", username],
+        async () => {
+          const response = await fetch(
+            `https://api.github.com/users/${username}/repos`
+          );
+          const json = await response.json();
+          return json;
+        },
+        {
+            enabled: false,
+            keepPreviousData: true
+        }
+    );
 
-export async function requestCollaborators(username: string, repo: string) {
-    const response = await fetch(`https://api.github.com/users/${username}/${repo}/`);
-    const data = await response.json();
-    console.log(data);
-    return data;
-}
+export const RequestUser = (username : string) =>
+    useQuery<{name : string}>(
+        ["repo", username],
+        async () => {
+          const response = await fetch(
+            `https://api.github.com/users/${username}`
+          );
+          const json = await response.json();
+          return json;
+        },
+        {
+            enabled: false,
+            keepPreviousData: true
+        }
+    );
+
+export const RequestRepo = (repoName : string) =>
+    useQuery<{name : string}>(
+        ["repo", repoName],
+        async () => {
+            const response = await fetch(
+                `https://api.github.com/repos/${repoName}`
+            );
+            const json = await response.json();
+            return json;
+        },
+        {
+            enabled: false,
+            keepPreviousData: true
+        }
+    );
