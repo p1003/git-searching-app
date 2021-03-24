@@ -1,22 +1,23 @@
-import React , {FC} from "react"
-import { requestUserRepos } from "../../API";
+import React , {FC, useEffect, useState} from "react"
 
 type NavProps = {
-    username : string;
     setUsername : (name : string) => void;
-    setUserData : (data : any) => void;
+    refetch: () => void;
 }
 
 export const NavBar: FC<NavProps> = props => {
 
+    const [inputName, setInputName] = useState("");
+
     const onSearchClick = () => {
-        props.setUserData(requestUserRepos(props.username));
+        props.setUsername(inputName);
+        props.refetch();
     }
 
     return (
         <div>
-            <input type="text" value={props.username}
-                onChange={e => props.setUsername(e.target.value)}/>
+            <input type="text" value={inputName}
+                onChange={e => setInputName(e.target.value)}/>
             <button onClick={onSearchClick}>Search</button>
         </div>
     )

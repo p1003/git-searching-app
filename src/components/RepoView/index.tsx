@@ -1,24 +1,17 @@
-import React, {useEffect, useState, FC} from 'react';
-import {requestRepo} from "../../API";
-import {User} from "../User";
+import React, { FC } from 'react';
+import { Link } from "react-router-dom";
 
 type RepoViewProps = {
-    username : string;
-    repoName : string;
+    repoData: any;
 }
 
 export const RepoView: FC<RepoViewProps> = props => {
 
-    const [data, setData] = useState<null | any>(null);
-
-    useEffect(() => {
-        // setData(requestRepo(props.username,props.repoName));
-    }, [data]);
-
     function collaboratorsList() {
-        const list = data.map((user : any) =>
+        const list = props.repoData?.map((user: any) =>
             <li key={user.login}>
-                <User login={user.login} avatar={user.avatar}/>
+                <img src={user.avatar} alt="logo" />
+                <Link to={`/${user.login}`}>{user.login}</Link>
             </li>
         );
         return (
@@ -30,9 +23,7 @@ export const RepoView: FC<RepoViewProps> = props => {
 
     return (
         <div className="RepoView">
-            <p>{props.username}</p>
-            <p>{props.repoName}</p>
-            {data && collaboratorsList()}
+            {props.repoData && collaboratorsList()}
         </div>
     )
 }

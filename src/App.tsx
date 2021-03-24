@@ -4,28 +4,47 @@ import { MainView } from "./components/MainView"
 import { NavBar } from "./components/NavBar"
 import { RepoView } from './components/RepoView';
 import { UserView } from "./components/UserView"
+import { useUserRepos, useRepo } from "./API";
 
 function App() {
 
     const [username, setUsername] = useState("");
-    const [userRepos, setUserData] = useState<null | any>(null);
     const [repoName, setRepoName] = useState("");
 
     useEffect(() => {
         setRepoName("");
-    }, [userRepos]);
+    }, [username]);
+
+    const {
+        data: userRepos,
+        isLoading: isUserReposLoading,
+        isError,
+        error: userReposError,
+        refetch
+      } = useUserRepos(username);
+
+    const { data : repoData } = useRepo(username,repoName);
 
     return (
         <div>
-            <NavBar username={username} setUsername={setUsername} setUserData={setUserData}/>
+            <NavBar setUsername={setUsername} refetch={refetch} />
             <Switch>
                 <Route path="/:user">
                     <UserView />
                 </Route>
                 <Route>
-                    {repoName==="" ?
-                    <MainView userRepos={userRepos} setRepoName={setRepoName}/> :
-                    <RepoView username={username} repoName={repoName}/>
+                    <p>username: {username}</p>
+                    {username &&
+                        <div>
+                            {userRepos ?
+                                <MainView userRepos={userRepos} setRepoName={setRepoName} /> :
+                                <div>
+                                    {repoData &&
+                                        <RepoView repoData={repoData} />
+                                    }
+                                </div>
+                            }
+                        </div>
                     }
                 </Route>
             </Switch>
