@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 type MainViewProps = {
     userRepos: any;
@@ -7,13 +7,11 @@ type MainViewProps = {
 
 export const MainView: FC<MainViewProps> = props => {
 
-    const [selectedRepoName, setSelectedRepoName] = useState("");
-
     const repoClick = (text: string) => {
         console.log(text);
         props.setRepoName(text);
     };
-    
+
     function reposList() {
         const list = props.userRepos?.map((repo: any) =>
             <li key={repo.id}>

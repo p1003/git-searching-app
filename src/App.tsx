@@ -4,7 +4,7 @@ import { MainView } from "./components/MainView"
 import { NavBar } from "./components/NavBar"
 import { RepoView } from './components/RepoView';
 import { UserView } from "./components/UserView"
-import { useUserRepos, useRepo } from "./API";
+import { useUserRepos, useRepo, useRepoContributors, useRepoCommits } from "./API";
 
 function App() {
 
@@ -17,32 +17,42 @@ function App() {
 
     const {
         data: userRepos,
-        isLoading: isUserReposLoading,
-        isError,
         error: userReposError,
         refetch
-      } = useUserRepos(username);
+    } = useUserRepos(username);
 
-    const { data : repoData } = useRepo(username,repoName);
+    const { data: repoData,
+    } = useRepo(username, repoName);
+
+    const {
+        data: repoContributors
+    } = useRepoContributors(username, repoName);
+
+    const {
+        data: repoCommits
+    } = useRepoCommits(username, repoName);
 
     return (
         <div>
-            <NavBar setUsername={setUsername} refetch={refetch} />
             <Switch>
                 <Route path="/:user">
                     <UserView />
                 </Route>
                 <Route>
+                    <NavBar setUsername={setUsername} refetch={refetch} />
                     <p>username: {username}</p>
                     {username &&
                         <div>
-                            {userRepos ?
-                                <MainView userRepos={userRepos} setRepoName={setRepoName} /> :
+                            {userReposError && (
+                                <div>Error! {(userReposError as any).message}</div>
+                            )}
+                            {repoName!=="" ?
                                 <div>
                                     {repoData &&
-                                        <RepoView repoData={repoData} />
+                                        <RepoView repoData={repoData} contributors={repoContributors} commits={repoCommits}/>
                                     }
-                                </div>
+                                </div> :
+                                <MainView userRepos={userRepos} setRepoName={setRepoName} />
                             }
                         </div>
                     }
