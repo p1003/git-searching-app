@@ -25,7 +25,7 @@ export const MainView: FC<MainViewProps> = props => {
             </ul>
         )
     };
-
+//{props.userRepos && reposList()}
     return (
         <div className="MainView">
             {props.userRepos && reposList()}

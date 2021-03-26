@@ -1,23 +1,28 @@
 import { useQuery } from "react-query";
 
 const headers = {
-    "Authorization": `Token ${process.env.REACT_APP_GIT_AUTH_TOKEN}`
+    "Authorization": `Token ${process.env.REACT_APP_GIT_AUTH_TOKEN}`,
+    "Accept" : "application/vnd.github.cloak-preview"
 }
 
 export const useUserRepos = (username: string) =>
     useQuery<{ name: string }[]>(
-        ["repo", username],
+        ["repos", username],
         async () => {
             if (username !== "") {
+                // https://api.github.com/users/${username}/repos
                 const response = await fetch(
-                    `https://api.github.com/users/${username}/repos`, {
+                    `https://api.github.com/search/repositories?q=user:${username}`, {
                     "method": "GET",
                     "headers": headers
                 });
                 if (!response.ok) {
                     throw new Error(`Failed to load ${username} repos`)
                 }
-                return response.json();
+                const data = await response.json();
+                console.log(response.headers.get("link"))
+                console.log(data);
+                return data.items;
             }
         },
         {
@@ -38,7 +43,9 @@ export const useUser = (username: string) =>
                 if (!response.ok) {
                     throw new Error(`Failed to load ${username} user`)
                 }
-                return response.json();
+                const data = await response.json();
+                console.log(data);
+                return data.items;
             }
         },
         {
@@ -49,14 +56,14 @@ export const useUser = (username: string) =>
 export const useRepo = (username: string, repoName: string) =>
     useQuery<{ name: string }>(["repo", username, repoName],
         async () => {
-            if (username !== "" && repoName !== "") {
+            if (repoName !== "") {
                 const response = await fetch(
                     `https://api.github.com/repos/${username}/${repoName}`, {
                     "method": "GET",
                     "headers": headers
                 });
                 if (!response.ok) {
-                    throw new Error(`Failed to load repo ${repoName} of ${username}`)
+                    throw new Error(`Failed to load repo ${repoName}`)
                 }
                 const data = await response.json();
                 console.log(data)
@@ -93,9 +100,11 @@ export const useRepoContributors = (username: string, repoName: string) =>
 
 export const useRepoCommits = (username: string, repoName: string) =>
     useQuery<{ name: string }[]>(
-        ["collabs", username, repoName],
+        ["commits", username, repoName],
         async () => {
             if (username !== "" && repoName !== "") {
+                // `https://api.github.com/repos/${username}/${repoName}/commits`
+                // `https://api.github.com/search/commits?q=repo:${repoName}`
                 const response = await fetch(
                     `https://api.github.com/repos/${username}/${repoName}/commits`, {
                     "method": "GET",

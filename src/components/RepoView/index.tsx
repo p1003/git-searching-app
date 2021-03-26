@@ -1,15 +1,24 @@
 import React, { FC, useState } from 'react';
 import { Link } from "react-router-dom";
+import { useRepo, useRepoContributors, useRepoCommits } from "../../API";
 
 type RepoViewProps = {
-    repoData: any;
-    contributors: any;
-    commits: any;
+    username: string;
+    repoName: string;
 }
 
 export const RepoView: FC<RepoViewProps> = props => {
 
-    const [view, setView] = useState("");
+    const { data: repoData,
+        error: repoDataError,
+        refetch: refetchRepo
+    } = useRepo(props.username,props.repoName);
+
+    const { data: repoContributors } = useRepoContributors(props.username, props.repoName);
+
+    const { data: repoCommits } = useRepoCommits(props.username, props.repoName);
+
+    const [view, setView] = useState("Contributors");
 
     function onCommitsClick() {
         setView("Commits");
@@ -19,39 +28,50 @@ export const RepoView: FC<RepoViewProps> = props => {
     }
 
     function contributorsList() {
-        const list = props.contributors?.map((user: any) =>
+        const list = repoContributors?.map((user: any) =>
             <li key={user.login}>
                 <img src={user.avatar_url} alt="logo" />
                 <Link to={`/${user.login}`}>{user.login}</Link>
             </li>
         );
         return (
-            <ul>
-                {list}
-            </ul>
+            <div>
+                <p>Contributors</p>
+                <ul>
+                    {list}
+                </ul>
+            </div>
         )
     }
 
     function commitsList() {
-        const list = props.commits?.map((commit: any) =>
+        const list = repoCommits?.map((commit: any) =>
             <li key={commit.node_id}>
-                <p>{commit.commiter?.login}</p>
+                <p>{commit.commit.author.name}</p>
+                <p>{commit.commit.message}</p>
+                <p>{commit.commit.author.date}</p>
             </li>
         );
         return (
-            <ul>
-                {list}
-            </ul>
+            <div>
+                <p>Commits</p>
+                <ul>
+                    {list}
+                </ul>
+            </div>
         )
     }
 
     return (
         <div className="RepoView">
-            <p>{props.repoData.name}</p>
-            <button onClick={onContributorsClick}>Contributors</button>
-            <button onClick={onCommitsClick}>Commits</button>
-            {view==="Contributors" && contributorsList()}
-            {view==="Commits" && commitsList()}
+            {repoData && <div>
+                <p>{repoData?.name}</p>
+                <button onClick={onContributorsClick}>Contributors</button>
+                <button onClick={onCommitsClick}>Commits</button>
+                {view === "Contributors" && contributorsList()}
+                {view === "Commits" && commitsList()}
+            </div>
+            }
         </div>
     )
 }

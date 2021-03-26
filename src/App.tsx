@@ -18,38 +18,28 @@ function App() {
     const {
         data: userRepos,
         error: userReposError,
-        refetch
+        refetch: refetchUser
     } = useUserRepos(username);
-
-    const { data: repoData,
-    } = useRepo(username, repoName);
-
-    const {
-        data: repoContributors
-    } = useRepoContributors(username, repoName);
-
-    const {
-        data: repoCommits
-    } = useRepoCommits(username, repoName);
 
     return (
         <div>
             <Switch>
                 <Route path="/:user">
-                    <UserView />
+                    <UserView username={username}/>
                 </Route>
                 <Route>
-                    <NavBar setUsername={setUsername} refetch={refetch} />
-                    <p>username: {username}</p>
+                    <NavBar setUsername={setUsername} refetchUser={refetchUser}/>
+                    {repoName!=="" && <button onClick={() => setRepoName("")}>Back to repo list</button>}
                     {username &&
                         <div>
+                            <p>username: {username}</p>
                             {userReposError && (
                                 <div>Error! {(userReposError as any).message}</div>
                             )}
                             {repoName!=="" ?
                                 <div>
-                                    {repoData &&
-                                        <RepoView repoData={repoData} contributors={repoContributors} commits={repoCommits}/>
+                                    {repoName &&
+                                        <RepoView username={username} repoName={repoName}/>
                                     }
                                 </div> :
                                 <MainView userRepos={userRepos} setRepoName={setRepoName} />
