@@ -5,14 +5,36 @@ const headers = {
     "Accept": "application/vnd.github.cloak-preview"
 }
 
-export const useSearch = (searchInput: string, searchType: string, page: string, setMaxPage: (page : number) => void) =>
+// https://api.github.com/search/repositories?q=door-manager&page=1
+
+export const useSearch = (
+    searchInput: string,
+    searchType: string,
+    page: number,
+    perPage: number,
+    sort: string,
+    setMaxPage: (page: number) => void) =>
     useQuery(
         [searchType, searchInput, page],
         async () => {
             if (searchInput !== "" && searchType !== "") {
-                console.log(page)
+                let url = `https://api.github.com/search/${searchType}?q=${searchInput}`;
+                if (page > 0) {
+                    url += `&page=${page}`;
+                }
+                if (perPage > 1 && perPage < 101 && perPage !== 30) {
+                    url += `&per_page=${perPage}`;
+                }
+                let order = sort;
+                if (sort !== "") {
+                    url += `&sort=${sort}`;
+                    if (order !== "") {
+                        url += `&order=${order}`;
+                    }
+                }
+                console.log("url: " + url)
                 const response = await fetch(
-                    `https://api.github.com/search/${searchType}?q=${searchInput}&page=${page}`, {
+                    url, {
                     "method": "GET",
                     "headers": headers
                 });
@@ -22,15 +44,38 @@ export const useSearch = (searchInput: string, searchType: string, page: string,
                 const data = await response.json();
                 console.log(response.headers.get("link"))
                 console.log(data);
-                setMaxPage(Math.ceil(data.total_count/30));
+                setMaxPage(Math.ceil(data.total_count / 30));
                 return data;
             }
         }
     );
 
-export const useUserRepos = (username: string) =>
+export const useUser = (username: string) =>
+    useQuery<{ login: string }>(
+        ["user", username],
+        async () => {
+            if (username !== "") {
+                const response = await fetch(
+                    `https://api.github.com/users/${username}`, {
+                    "method": "GET",
+                    "headers": headers
+                });
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${username} user`)
+                }
+                const data = await response.json();
+                console.log(data);
+                return data;
+            }
+        },
+        {
+            keepPreviousData: true
+        }
+    );
+
+export const useUserData = (username: string, type: string) =>
     useQuery<{ name: string }[]>(
-        ["repos", username],
+        [type , username],
         async () => {
             if (username !== "") {
                 // https://api.github.com/users/${username}/repos
@@ -53,31 +98,9 @@ export const useUserRepos = (username: string) =>
         }
     );
 
-export const useUser = (username: string) =>
-    useQuery<{ login: string }>(
-        ["user", username],
-        async () => {
-            if (username !== "") {
-                const response = await fetch(
-                    `https://api.github.com/users/${username}`, {
-                    "method": "GET",
-                    "headers": headers
-                });
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${username} user`)
-                }
-                const data = await response.json();
-                console.log(data);
-                return data.items;
-            }
-        },
-        {
-            keepPreviousData: true
-        }
-    );
-
 export const useRepo = (username: string, repoName: string) =>
-    useQuery<{ name: string }>(["repo", username, repoName],
+    useQuery<{ name: string }>(
+        ["repo", username, repoName],
         async () => {
             if (repoName !== "") {
                 const response = await fetch(
@@ -98,43 +121,18 @@ export const useRepo = (username: string, repoName: string) =>
         }
     );
 
-export const useRepoContributors = (username: string, repoName: string) =>
+export const useRepoData = (username: string, repoName: string, type: string) =>
     useQuery<{ name: string }[]>(
-        ["collabs", username, repoName],
+        [type, username, repoName],
         async () => {
             if (username !== "" && repoName !== "") {
                 const response = await fetch(
-                    `https://api.github.com/repos/${username}/${repoName}/contributors`, {
+                    `https://api.github.com/repos/${username}/${repoName}/${type}`, {
                     "method": "GET",
                     "headers": headers
                 });
                 if (!response.ok) {
-                    throw new Error(`Failed to load ${username} repos`)
-                }
-                const data = await response.json();
-                console.log(data)
-                return data;
-            }
-        },
-        {
-            keepPreviousData: true
-        }
-    );
-
-export const useRepoCommits = (username: string, repoName: string) =>
-    useQuery<{ name: string }[]>(
-        ["commits", username, repoName],
-        async () => {
-            if (username !== "" && repoName !== "") {
-                // `https://api.github.com/repos/${username}/${repoName}/commits`
-                // `https://api.github.com/search/commits?q=repo:${repoName}`
-                const response = await fetch(
-                    `https://api.github.com/repos/${username}/${repoName}/commits`, {
-                    "method": "GET",
-                    "headers": headers
-                });
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${username} repos`)
+                    throw new Error(`Failed to load ${username} ${type}`)
                 }
                 const data = await response.json();
                 console.log(data)

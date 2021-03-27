@@ -1,23 +1,46 @@
-import React, { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
-import { useUser } from "../../API";
+import { useUser, useUserData } from "../../API";
 
 export const UserView: FC = () => {
 
-    const { user } = useParams<{ user: string }>();
+    const { username } = useParams<{ username: string }>();
 
-    const { data: userData } = useUser(user);
+    const { 
+        data: userData,
+        isLoading,
+        isError
+    } = useUser(username);
+
+    const { data: userRepos } = useUserData(username,"repos");
+    // const { data: userFollowers } = useRepoCommits(username);
+
+    const [view, setView] = useState("");
 
     return (
         <div>
-            <Link to="/">Go back</Link>
-            { userData &&
+            <Link to="/">Searching page</Link>
+            { isLoading ? (
+                <p>Loading...</p>
+            ) : isError ? (
+                <p>Error occured</p>
+            ) : (
                 <div>
-                    <p>{userData.login}</p>
-                    
-                    {/* <img src={userData.avatar_url} alt="logo" /> */}
+                    <p>{userData?.login}</p>
+                    <button onClick={() => setView("Repositories")}>Repositories</button>
+                    <button onClick={() => setView("Followers")}>Followers</button>
+                    {view === "Repositories" &&
+                        userRepos?.map((repo: any) =>
+                            <div key={repo.id}>
+                                <a href={repo?.html_url}>View on github</a>
+                                <p>Author: {repo.owner.login}</p>
+                                <p>Repo name: {repo.name}</p>
+                                <Link to={`/${repo.owner.login}/${repo.name}`}>More info</Link>
+                            </div>
+                        )
+                    }
                 </div>
-            }
+            )}
         </div>
     )
 }
