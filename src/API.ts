@@ -2,8 +2,31 @@ import { useQuery } from "react-query";
 
 const headers = {
     "Authorization": `Token ${process.env.REACT_APP_GIT_AUTH_TOKEN}`,
-    "Accept" : "application/vnd.github.cloak-preview"
+    "Accept": "application/vnd.github.cloak-preview"
 }
+
+export const useSearch = (searchInput: string, searchType: string, page: string, setMaxPage: (page : number) => void) =>
+    useQuery(
+        [searchType, searchInput, page],
+        async () => {
+            if (searchInput !== "" && searchType !== "") {
+                console.log(page)
+                const response = await fetch(
+                    `https://api.github.com/search/${searchType}?q=${searchInput}&page=${page}`, {
+                    "method": "GET",
+                    "headers": headers
+                });
+                if (!response.ok) {
+                    throw new Error(`Failed to load search for ${searchInput}`)
+                }
+                const data = await response.json();
+                console.log(response.headers.get("link"))
+                console.log(data);
+                setMaxPage(Math.ceil(data.total_count/30));
+                return data;
+            }
+        }
+    );
 
 export const useUserRepos = (username: string) =>
     useQuery<{ name: string }[]>(

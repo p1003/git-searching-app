@@ -1,19 +1,20 @@
 import React, { FC } from 'react';
 import { Link, useParams } from "react-router-dom";
-import { useUser } from "../../API";
+import { useRepo } from "../../API";
 
-export const UserView: FC = () => {
+export const RepoViewRedirect: FC = () => {
 
     const { user } = useParams<{ user: string }>();
+    const { repo } = useParams<{ repo: string }>();
 
-    const { data: userData } = useUser(user);
+    const { data: repoData } = useRepo(user,repo);
 
     return (
         <div>
             <Link to="/">Go back</Link>
-            { userData &&
+            { repoData &&
                 <div>
-                    <p>{userData.login}</p>
+                    <p>{repoData.name}</p>
                     
                     {/* <img src={userData.avatar_url} alt="logo" /> */}
                 </div>
