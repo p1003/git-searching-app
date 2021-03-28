@@ -1,5 +1,5 @@
 import { FC, useState } from "react"
-import "./index.css"
+import styles from "./styles.module.css";
 
 type NavProps = {
     setSearchValue: (name: string) => void;
@@ -16,12 +16,13 @@ export const SearchBar: FC<NavProps> = props => {
     const [advanced, setAdvanced] = useState(false);
 
     return (
-        <div className="search_bar">
-            <input type="text"
+        <div className={styles.SearchBar}>
+            <input className={styles.Input}
+                type="text"
                 onChange={e => setInputName(e.target.value)} />
 
-            <button className="search_btn" onClick={() => {
-                if(!advanced) {
+            <button className={styles.Button} onClick={() => {
+                if (!advanced) {
                     props.setPerPage(30);
                     props.setSort("");
                     props.setOrder("");
@@ -30,7 +31,8 @@ export const SearchBar: FC<NavProps> = props => {
                 props.setSearchValue(inputName);
             }}>Search</button>
 
-            <button onClick={() => {
+            <button className={styles.Button}
+            onClick={() => {
                 if (type === "repositories") {
                     setType("users");
                 } else {
@@ -38,10 +40,11 @@ export const SearchBar: FC<NavProps> = props => {
                 }
             }}>{type}</button>
 
-            <button onClick={() => setAdvanced(!advanced)}>Advanced</button>
+            <button className={styles.Button}
+            onClick={() => setAdvanced(!advanced)}>Advanced</button>
             { advanced &&
                 <div>
-                    <p>per_page</p>
+                    <text>per_page</text>
                     <input list="numbers" onChange={e => props.setPerPage(parseInt(e.target.value))} />
                     <datalist id="numbers">
                         {
@@ -49,8 +52,8 @@ export const SearchBar: FC<NavProps> = props => {
                                 <option key={elem} value={elem + 1} />)
                         }
                     </datalist>
-                    <p>sort</p>
-                    <input list="sorts" onChange={e => props.setSort(e.target.value)}/>
+                    <text>sort</text>
+                    <input list="sorts" onChange={e => props.setSort(e.target.value)} />
                     <datalist id="sorts">
                         <option value="interactions" />
                         <option value="reactions" />
@@ -58,7 +61,7 @@ export const SearchBar: FC<NavProps> = props => {
                         <option value="commiter-date" />
                         <option value="updated" />
                     </datalist>
-                    <p>order</p>
+                    <text>order</text>
                     <input list="orders" onChange={e => props.setOrder(e.target.value)} />
                     <datalist id="orders">
                         <option value="asc" />

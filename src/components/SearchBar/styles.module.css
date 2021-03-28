@@ -1,0 +1,14 @@
+.SearchBar {
+    top: 0;
+    left: 0;
+    background-color:dimgrey;
+    padding: 10px;
+}
+
+.Input {
+    border-radius: 10px;
+}
+
+.Button {
+    border-radius: 10px;
+}

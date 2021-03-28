@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { SearchBar } from "../SearchBar"
 import { useSearch } from "../../API";
+import styles from "./styles.module.css";
 
 export const MainView: FC = () => {
 
@@ -26,33 +27,33 @@ export const MainView: FC = () => {
 
     //{props.userRepos && reposList()}
     return (
-        <div className="MainView">
+        <div className={styles.MainView}>
             <SearchBar
-            setSearchValue={setSearchValue} 
-            setSearchType={setSearchType} 
-            setPerPage={setPerPage} 
-            setSort={setSort} 
-            setOrder={setOrder} 
+                setSearchValue={setSearchValue}
+                setSearchType={setSearchType}
+                setPerPage={setPerPage}
+                setSort={setSort}
+                setOrder={setOrder}
             />
-            <button
-                onClick={() => setPage(Math.max(page - 1, 1))}
-                disabled={page === 1}
-            > Previous Page </button>{' '}
-            <button
-                onClick={() => {
-                    if (!isPreviousData && page < maxPage) {
-                        setPage(page + 1)
-                    }
-                }}
-                // Disable the Next Page button until we know a next page is available
-                disabled={page === maxPage}
-            > Next Page </button>
             {isLoading ? (
                 <p>Loading...</p>
             ) : isError ? (
                 <p>Error occured</p>
             ) : (
                 <div>
+                    <button
+                        onClick={() => setPage(Math.max(page - 1, 1))}
+                        disabled={page === 1}
+                    > Previous Page </button>{' '}
+                    <button
+                        onClick={() => {
+                            if (!isPreviousData && page < maxPage) {
+                                setPage(page + 1)
+                            }
+                        }}
+                        // Disable the Next Page button until we know a next page is available
+                        disabled={page === maxPage}
+                    > Next Page </button>
                     { searchType === "users" &&
                         searchData &&
                         searchData?.items.map((user: any) =>
