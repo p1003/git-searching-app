@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { NavBar } from "../NavBar"
+import { SearchBar } from "../SearchBar"
 import { useSearch } from "../../API";
 
 export const MainView: FC = () => {
@@ -11,6 +11,7 @@ export const MainView: FC = () => {
     const [maxPage, setMaxPage] = useState(1);
     const [perPage, setPerPage] = useState(30);
     const [sort, setSort] = useState("");
+    const [order, setOrder] = useState("");
 
     useEffect(() => {
         setPage(1);
@@ -19,16 +20,20 @@ export const MainView: FC = () => {
     const {
         isLoading,
         isError,
-        error,
         data: searchData,
-        isFetching,
         isPreviousData,
-    } = useSearch(searchValue, searchType, page, perPage, sort, setMaxPage);
+    } = useSearch(searchValue, searchType, page, perPage, sort, order, setMaxPage);
 
     //{props.userRepos && reposList()}
     return (
         <div className="MainView">
-            <NavBar setSearchValue={setSearchValue} setSearchType={setSearchType} />
+            <SearchBar
+            setSearchValue={setSearchValue} 
+            setSearchType={setSearchType} 
+            setPerPage={setPerPage} 
+            setSort={setSort} 
+            setOrder={setOrder} 
+            />
             <button
                 onClick={() => setPage(Math.max(page - 1, 1))}
                 disabled={page === 1}
@@ -74,36 +79,3 @@ export const MainView: FC = () => {
         </div>
     )
 }
-
-// type MainViewProps = {
-//     userRepos: any;
-//     setRepoName: (name: string) => void;
-// }
-
-// export const MainView: FC<MainViewProps> = props => {
-
-//     const repoClick = (text: string) => {
-//         console.log(text);
-//         props.setRepoName(text);
-//     };
-
-//     function reposList() {
-//         const list = props.userRepos?.map((repo: any) =>
-//             <li key={repo.id}>
-//                 <p onClick={() => repoClick(repo.name)}>{repo.name}</p>
-//                 <p>{repo.html_url}</p>
-//             </li>
-//         );
-//         return (
-//             <ul>
-//                 {list}
-//             </ul>
-//         )
-//     };
-    
-//     return (
-//         <div className="MainView">
-//             {props.userRepos && reposList()}
-//         </div>
-//     )
-// }

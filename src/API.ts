@@ -5,17 +5,16 @@ const headers = {
     "Accept": "application/vnd.github.cloak-preview"
 }
 
-// https://api.github.com/search/repositories?q=door-manager&page=1
-
 export const useSearch = (
     searchInput: string,
     searchType: string,
     page: number,
     perPage: number,
     sort: string,
+    order: string,
     setMaxPage: (page: number) => void) =>
     useQuery(
-        [searchType, searchInput, page],
+        [searchType, searchInput, page, perPage, sort, order],
         async () => {
             if (searchInput !== "" && searchType !== "") {
                 let url = `https://api.github.com/search/${searchType}?q=${searchInput}`;
@@ -25,7 +24,6 @@ export const useSearch = (
                 if (perPage > 1 && perPage < 101 && perPage !== 30) {
                     url += `&per_page=${perPage}`;
                 }
-                let order = sort;
                 if (sort !== "") {
                     url += `&sort=${sort}`;
                     if (order !== "") {
@@ -80,7 +78,7 @@ export const useUserData = (username: string, type: string) =>
             if (username !== "") {
                 // https://api.github.com/users/${username}/repos
                 const response = await fetch(
-                    `https://api.github.com/search/repositories?q=user:${username}`, {
+                    `https://api.github.com/users/${username}/${type}`, {
                     "method": "GET",
                     "headers": headers
                 });
@@ -90,7 +88,7 @@ export const useUserData = (username: string, type: string) =>
                 const data = await response.json();
                 console.log(response.headers.get("link"))
                 console.log(data);
-                return data.items;
+                return data;
             }
         },
         {
