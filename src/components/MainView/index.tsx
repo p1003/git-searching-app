@@ -2,30 +2,31 @@ import { FC, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { SearchBar } from "../SearchBar"
 import { useSearch } from "../../API";
+import { Paging } from "../Paging"
 import styles from "./styles.module.css";
+import globalStyles from "../../global.module.css";
 
 export const MainView: FC = () => {
 
     const [searchValue, setSearchValue] = useState("");
     const [searchType, setSearchType] = useState("");
-    const [page, setPage] = useState(1);
-    const [maxPage, setMaxPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [maxPage, setMaxPage] = useState(0);
     const [perPage, setPerPage] = useState(30);
     const [sort, setSort] = useState("");
     const [order, setOrder] = useState("");
 
     useEffect(() => {
-        setPage(1);
+        setCurrentPage(1);
+        setMaxPage(0);
     }, [searchValue]);
 
     const {
         isLoading,
         isError,
         data: searchData,
-        isPreviousData,
-    } = useSearch(searchValue, searchType, page, perPage, sort, order, setMaxPage);
+    } = useSearch(searchValue, searchType.toLowerCase(), currentPage, perPage, sort, order, setMaxPage);
 
-    //{props.userRepos && reposList()}
     return (
         <div className={styles.MainView}>
             <SearchBar
@@ -40,34 +41,26 @@ export const MainView: FC = () => {
             ) : isError ? (
                 <p>Error occured</p>
             ) : (
-                <div>
-                    <button
-                        onClick={() => setPage(Math.max(page - 1, 1))}
-                        disabled={page === 1}
-                    > Previous Page </button>{' '}
-                    <button
-                        onClick={() => {
-                            if (!isPreviousData && page < maxPage) {
-                                setPage(page + 1)
-                            }
-                        }}
-                        // Disable the Next Page button until we know a next page is available
-                        disabled={page === maxPage}
-                    > Next Page </button>
-                    { searchType === "users" &&
+                <div className={styles.ResultsContainer}>
+                    { searchType === "Users" &&
                         searchData &&
-                        searchData?.items.map((user: any) =>
-                            <div key={user.id}>
+                        searchData?.items.map((user: any, index: number) =>
+                            <div key={user.id}
+                                className={index % 2 === 0 ? styles.ResultBarEven : styles.ResultBarOdd}>
+
                                 <p>{user.html_url}</p>
                                 <p>{user.login}</p>
                                 <Link to={`/${user.login}`}>More info</Link>
                             </div>
                         )
                     }
-                    { searchType === "repositories" &&
+                    { searchType === "Repositories" &&
                         searchData &&
-                        searchData?.items.map((repo: any) =>
-                            <div key={repo?.id}>
+                        searchData?.items.map((repo: any, index: number) =>
+                            <div key={repo?.id}
+                                className={index % 2 === 0
+                                    ? styles.ResultBarEven
+                                    : styles.ResultBarOdd}>
                                 <p>{repo?.html_url}</p>
                                 <p>{repo.owner.login}</p>
                                 <p>{repo.name}</p>
@@ -77,6 +70,10 @@ export const MainView: FC = () => {
                     }
                 </div>
             )}
+            <Paging
+                currentPage={currentPage}
+                maxPage={maxPage}
+                setCurrentPage={setCurrentPage} />
         </div>
     )
 }

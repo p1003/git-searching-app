@@ -1,5 +1,6 @@
 import { FC, useState } from "react"
 import styles from "./styles.module.css";
+import { sortValues, orderValues } from "../../utils"
 
 type NavProps = {
     setSearchValue: (name: string) => void;
@@ -12,61 +13,86 @@ type NavProps = {
 export const SearchBar: FC<NavProps> = props => {
 
     const [inputName, setInputName] = useState("");
-    const [type, setType] = useState("repositories");
+    const [type, setType] = useState("Repositories");
     const [advanced, setAdvanced] = useState(false);
 
     return (
         <div className={styles.SearchBar}>
-            <input className={styles.Input}
-                type="text"
-                onChange={e => setInputName(e.target.value)} />
+            <div>
+                <input className={styles.SearchInput}
+                    type="text"
+                    onChange={e => setInputName(e.target.value)} />
 
-            <button className={styles.Button} onClick={() => {
-                if (!advanced) {
-                    props.setPerPage(30);
-                    props.setSort("");
-                    props.setOrder("");
-                }
-                props.setSearchType(type);
-                props.setSearchValue(inputName);
-            }}>Search</button>
+                <button className={styles.Button} onClick={() => {
+                    props.setSearchType(type);
+                    props.setSearchValue(inputName);
+                }}>Search</button>
 
-            <button className={styles.Button}
-            onClick={() => {
-                if (type === "repositories") {
-                    setType("users");
-                } else {
-                    setType("repositories");
-                }
-            }}>{type}</button>
-
-            <button className={styles.Button}
-            onClick={() => setAdvanced(!advanced)}>Advanced</button>
-            { advanced &&
-                <div>
-                    <text>per_page</text>
-                    <input list="numbers" onChange={e => props.setPerPage(parseInt(e.target.value))} />
-                    <datalist id="numbers">
-                        {
-                            Array.from(Array(100).keys()).map((elem: number) =>
-                                <option key={elem} value={elem + 1} />)
+                <button className={styles.Button}
+                    onClick={() => {
+                        if (type === "Repositories") {
+                            setType("Users");
+                        } else {
+                            setType("Repositories");
                         }
-                    </datalist>
-                    <text>sort</text>
-                    <input list="sorts" onChange={e => props.setSort(e.target.value)} />
-                    <datalist id="sorts">
-                        <option value="interactions" />
-                        <option value="reactions" />
-                        <option value="author-date" />
-                        <option value="commiter-date" />
-                        <option value="updated" />
-                    </datalist>
-                    <text>order</text>
-                    <input list="orders" onChange={e => props.setOrder(e.target.value)} />
-                    <datalist id="orders">
-                        <option value="asc" />
-                        <option value="desc" />
-                    </datalist>
+                    }}>{type}</button>
+
+                <button className={styles.Button}
+                    onClick={() => setAdvanced(!advanced)}>Advanced</button>
+            </div>
+            { advanced &&
+                <div className={styles.Advanced}>
+                    <div className={styles.AdvancedOption}>
+                        <b className={styles.AdvancedB}>Per Page</b>
+                        <input className={styles.AdvancedInput}
+                            list="numbers"
+                            onChange={e => {
+                                const val = parseInt(e.target.value);
+                                if (val > 0 && val < 101) {
+                                    props.setPerPage(val);
+                                }
+                            }} />
+                        <datalist id="numbers">
+                            {
+                                Array.from(Array(100).keys()).map((elem: number) =>
+                                    <option key={elem} value={elem + 1} />)
+                            }
+                        </datalist>
+                    </div>
+
+                    <div className={styles.AdvancedOption}>
+                        <b className={styles.AdvancedB}>Sort</b>
+                        <input className={styles.AdvancedInput}
+                            list="sorts"
+                            onChange={e => {
+                                sortValues.forEach(element => {
+                                    if (element === e.target.value) {
+                                        props.setSort(e.target.value)
+                                    }
+                                })
+                            }} />
+                        <datalist id="sorts">
+                            {sortValues.map((elem: string) =>
+                                <option value={elem} />)}
+                        </datalist>
+                    </div>
+
+                    <div className={styles.AdvancedOption}>
+                        <b className={styles.AdvancedB}>Order</b>
+                        <input className={styles.AdvancedInput}
+                            list="orders"
+                            onChange={e => {
+                                orderValues.forEach(element => {
+                                    if (element === e.target.value) {
+                                        props.setOrder(e.target.value)
+                                    }
+                                })
+                            }} />
+                        <datalist id="orders">
+                            {orderValues.map((elem: string) =>
+                                <option value={elem} />)}
+                        </datalist>
+                    </div>
                 </div>
             }
         </div>

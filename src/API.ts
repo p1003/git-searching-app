@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { DEFAULT_PER_PAGE, MAX_PER_PAGE } from "./utils"
 
 const headers = {
     "Authorization": `Token ${process.env.REACT_APP_GIT_AUTH_TOKEN}`,
@@ -16,12 +17,11 @@ export const useSearch = (
     useQuery(
         [searchType, searchInput, page, perPage, sort, order],
         async () => {
-            if (searchInput !== "" && searchType !== "") {
                 let url = `https://api.github.com/search/${searchType}?q=${searchInput}`;
                 if (page > 0) {
                     url += `&page=${page}`;
                 }
-                if (perPage > 1 && perPage < 101 && perPage !== 30) {
+                if (perPage > 1 && perPage <= MAX_PER_PAGE && perPage !== DEFAULT_PER_PAGE) {
                     url += `&per_page=${perPage}`;
                 }
                 if (sort !== "") {
@@ -40,58 +40,57 @@ export const useSearch = (
                     throw new Error(`Failed to load search for ${searchInput}`)
                 }
                 const data = await response.json();
-                console.log(response.headers.get("link"))
                 console.log(data);
-                setMaxPage(Math.ceil(data.total_count / 30));
+                setMaxPage(Math.ceil(data.total_count / perPage));
                 return data;
-            }
+        },
+        {
+            enabled: searchInput !== "" && searchType !== ""
         }
     );
 
 export const useUser = (username: string) =>
-    useQuery<{ login: string }>(
+    useQuery<{ login: string, avatar_url: string, public_repos: number, followers: number }>(
         ["user", username],
         async () => {
-            if (username !== "") {
-                const response = await fetch(
-                    `https://api.github.com/users/${username}`, {
-                    "method": "GET",
-                    "headers": headers
-                });
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${username} user`)
-                }
-                const data = await response.json();
-                console.log(data);
-                return data;
+            const response = await fetch(
+                `https://api.github.com/users/${username}`, {
+                "method": "GET",
+                "headers": headers
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to load ${username} user`)
             }
+            const data = await response.json();
+            console.log(data);
+            return data;
         },
         {
+            enabled: username !== "",
             keepPreviousData: true
         }
     );
 
-export const useUserData = (username: string, type: string) =>
-    useQuery<{ name: string }[]>(
-        [type , username],
+export const useUserData = (username: string, type: string, page: number) =>
+    useQuery<{ name: string }[] >(
+        [type, username, page],
         async () => {
-            if (username !== "") {
-                // https://api.github.com/users/${username}/repos
-                const response = await fetch(
-                    `https://api.github.com/users/${username}/${type}`, {
-                    "method": "GET",
-                    "headers": headers
-                });
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${username} repos`)
-                }
-                const data = await response.json();
-                console.log(response.headers.get("link"))
-                console.log(data);
-                return data;
+            // https://api.github.com/users/apohllo/repos
+            const response = await fetch(
+                `https://api.github.com/users/${username}/${type}?page=${page}`, {
+                "method": "GET",
+                "headers": headers
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to load ${username} repos`)
             }
+            const data = await response.json();
+            console.log(data);
+            return data;
+
         },
         {
+            enabled: username !== "",
             keepPreviousData: true
         }
     );
@@ -100,44 +99,45 @@ export const useRepo = (username: string, repoName: string) =>
     useQuery<{ name: string }>(
         ["repo", username, repoName],
         async () => {
-            if (repoName !== "") {
-                const response = await fetch(
-                    `https://api.github.com/repos/${username}/${repoName}`, {
-                    "method": "GET",
-                    "headers": headers
-                });
-                if (!response.ok) {
-                    throw new Error(`Failed to load repo ${repoName}`)
-                }
-                const data = await response.json();
-                console.log(data)
-                return data;
+            const response = await fetch(
+                `https://api.github.com/repos/${username}/${repoName}`, {
+                "method": "GET",
+                "headers": headers
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to load repo ${repoName}`)
             }
+            const data = await response.json();
+            console.log(data)
+            return data;
         },
         {
+            enabled: username !== "" && repoName !== "",
             keepPreviousData: true
         }
     );
 
-export const useRepoData = (username: string, repoName: string, type: string) =>
-    useQuery<{ name: string }[]>(
-        [type, username, repoName],
+export const useRepoData = (username: string, repoName: string, type: string, page: number) =>
+    useQuery<{ pages: number | null, array: { name: string }[] }>(
+        [type, username, repoName, page],
         async () => {
-            if (username !== "" && repoName !== "") {
-                const response = await fetch(
-                    `https://api.github.com/repos/${username}/${repoName}/${type}`, {
-                    "method": "GET",
-                    "headers": headers
-                });
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${username} ${type}`)
-                }
-                const data = await response.json();
-                console.log(data)
-                return data;
+            const response = await fetch(
+                `https://api.github.com/repos/${username}/${repoName}/${type}?page=${page}`, {
+                "method": "GET",
+                "headers": headers
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to load ${username} ${type}`)
             }
+            const data = await response.json();
+            const head = response.headers.get("link");
+            console.log(head);
+            const num = head && parseInt(head.split(",")[1].replace(">", "").split(";")[0].split("=")[1]) || null
+            return { array: data, pages: num };
+
         },
         {
+            enabled: username !== "" && repoName !== "",
             keepPreviousData: true
         }
     );

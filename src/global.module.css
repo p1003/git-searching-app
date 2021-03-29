@@ -1,0 +1,7 @@
+.UserImage {
+    width: 40px;
+    height: 40px;
+    border: solid;
+    border-color: rgb(107, 107, 107);
+    border-radius: 50%;
+}

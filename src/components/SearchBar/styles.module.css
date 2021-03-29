@@ -1,14 +1,56 @@
 .SearchBar {
+    position: sticky;
     top: 0;
     left: 0;
     background-color:dimgrey;
     padding: 10px;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.Input {
-    border-radius: 10px;
+.SearchInput {
+    border-radius: 8px;
+    text-align: center;
 }
 
 .Button {
-    border-radius: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.AdvancedOption {
+    display: grid;
+    padding: auto;
+    grid-template-columns: 80px 100px;
+    grid-gap: 50px;
+}
+
+.AdvancedB {
+    text-align: left;
+}
+
+.AdvancedInput {
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.Datalist{
+    width: 120px;
+}
+
+@media(min-width: 721px) {
+    .Advanced {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+}
+@media(max-width: 720px) {
+    .Advanced {
+        display: grid;
+        grid-template-columns: 60%;
+        grid-gap: auto;
+        margin-left: 20%;
+        margin-top: 10px;
+    }
 }
