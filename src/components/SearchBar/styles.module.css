@@ -2,43 +2,64 @@
     position: sticky;
     top: 0;
     left: 0;
-    background-color:dimgrey;
+    background-color:rgb(39, 38, 37);
     padding: 10px;
-    border-radius: 10px;
     text-align: center;
 }
 
-.SearchInput {
+.BasicSearch {
+    display: grid;
+    grid-template-columns: auto 100px;
+    grid-column-gap: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Input {
+    color: aliceblue;
+    background-color: rgb(77, 76, 76);
+    border: solid;
+    border-color:rgb(27, 78, 172);
     border-radius: 8px;
     text-align: center;
+    margin: 10px;
 }
 
 .Button {
+    color: aliceblue;
+    background-color: rgb(77, 76, 76);
+    border: solid;
+    border-color:rgb(27, 78, 172);
     border-radius: 8px;
     text-align: center;
+    margin: 10px;
+}
+
+.Advanced {
+    display: grid;
+    grid-template-columns: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10px;
 }
 
 .AdvancedOption {
     display: grid;
-    padding: auto;
-    grid-template-columns: 80px 100px;
-    grid-gap: 50px;
+    grid-template-columns: 80px auto;
 }
 
 .AdvancedB {
+    color:aliceblue;
     text-align: left;
-}
-
-.AdvancedInput {
-    border-radius: 8px;
-    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .Datalist{
     width: 120px;
 }
 
-@media(min-width: 721px) {
+/* @media(min-width: 721px) {
     .Advanced {
         display: flex;
         justify-content: center;
@@ -53,4 +74,4 @@
         margin-left: 20%;
         margin-top: 10px;
     }
-}
+} */

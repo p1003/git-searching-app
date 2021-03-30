@@ -1,12 +1,13 @@
 import { Switch, Route } from 'react-router';
-import { MainView } from "./components/MainView"
-import { UserView } from "./components/UserView"
-import { RepoView } from './components/RepoView';
+import { MainView } from "./components/Views/MainView"
+import { UserView } from "./components/Views/UserView"
+import { RepoView } from './components/Views/RepoView';
+import globalStyles from './global.module.css'
 
 function App() {
 
     return (
-        <div>
+        <div className={globalStyles.MainBackground}>
             <Switch>
                 <Route path="/:username/:repoName">
                     <RepoView />

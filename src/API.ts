@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { DEFAULT_PER_PAGE, MAX_PER_PAGE } from "./utils"
+import { DEFAULT_PER_PAGE, MAX_PER_PAGE, Options } from "./utils"
 
 const headers = {
     "Authorization": `Token ${process.env.REACT_APP_GIT_AUTH_TOKEN}`,
@@ -13,6 +13,9 @@ export const useSearch = (
     perPage: number,
     sort: string,
     order: string,
+    stars: string,
+    forks: string,
+    followers: string,
     setMaxPage: (page: number) => void) =>
     useQuery(
         [searchType, searchInput, page, perPage, sort, order],

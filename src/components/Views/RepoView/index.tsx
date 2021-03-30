@@ -1,9 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
-import { useRepo, useRepoData } from "../../API";
-import { Paging } from "../Paging"
+import { useRepo, useRepoData } from "../../../API";
+import { Paging } from "../../Paging"
+import { ViewChanger } from '../../ViewChanger';
 import styles from "./styles.module.css"
-import globalStyles from "../../global.module.css"
+import globalStyles from "../../../global.module.css"
 
 export const RepoView: FC = () => {
 
@@ -36,38 +37,33 @@ export const RepoView: FC = () => {
     } = useRepoData(username, repoName, "commits", currentPage);
 
     useEffect(() => {
-        console.log(maxConPage+"  "+repoContributors?.pages);
-        if(repoContributors?.pages != null && repoContributors?.pages > maxConPage) {
+        console.log(maxConPage + "  " + repoContributors?.pages);
+        if (repoContributors?.pages != null && repoContributors?.pages > maxConPage) {
             setMaxConPage(repoContributors?.pages);
         }
     }, [repoContributors])
 
-    useEffect(()=> {
-        console.log(maxCommitPage+"  "+repoCommits?.pages);
-        if(repoCommits?.pages != null && repoCommits?.pages > maxCommitPage) {
+    useEffect(() => {
+        console.log(maxCommitPage + "  " + repoCommits?.pages);
+        if (repoCommits?.pages != null && repoCommits?.pages > maxCommitPage) {
             setMaxCommitPage(repoCommits?.pages);
         }
     }, [repoCommits])
 
     return (
         <div>
-            <Link to={`/${username}`}>Owner: {username}</Link>
+            <Link className={globalStyles.Link} to={`/${username}`}>Owner: {username}</Link>
             <p>Repository: {repoName}</p>
-            <Link to="/">Searching page</Link>
+            <Link className={globalStyles.Link} to="/">Searching page</Link>
             { isLoading ? (
                 <p>Loading...</p>
             ) : isError ? (
                 <p>Error occured</p>
             ) : (
                 <div>
-                    <button onClick={() => setView("Contributors")}>Contributors</button>
-                    <button onClick={() => setView("Commits")}>Commits</button>
+                    <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
                     {view === "Contributors" ?
                         <>
-                            <Paging
-                                currentPage={currentPage}
-                                maxPage={maxConPage}
-                                setCurrentPage={setCurrentPage} />
                             { isContributorsLoading ? (
                                 <p>Loading...</p>
                             ) : isContributorsError ? (
@@ -75,7 +71,7 @@ export const RepoView: FC = () => {
                             ) : repoContributors?.array.map((user: any, index: number) =>
                                 <div key={index}>
                                     <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
-                                    <Link to={`/${user.login}`}>{user.login}</Link>
+                                    <Link className={globalStyles.Link} to={`/${user.login}`}>{user.login}</Link>
                                 </div>
                             )}
                             <Paging
@@ -85,10 +81,6 @@ export const RepoView: FC = () => {
                         </>
                         : view === "Commits" &&
                         <>
-                            <Paging
-                                currentPage={currentPage}
-                                maxPage={maxCommitPage}
-                                setCurrentPage={setCurrentPage} />
                             { isCommitsLoading ? (
                                 <p>Loading...</p>
                             ) : isCommitsError ? (

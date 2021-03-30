@@ -1,0 +1,22 @@
+.ViewChanger {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.SelectedBtn {
+    color: aliceblue;
+    background-color:rgb(56, 54, 53);
+    padding: 5px;
+    border: solid;
+    border-color:rgb(73, 123, 216);
+
+}
+
+.NormalBtn {
+    color: aliceblue;
+    background-color:rgb(39, 38, 37);
+    padding: 5px;
+    border: solid;
+    border-color:rgb(27, 78, 172);
+
+}

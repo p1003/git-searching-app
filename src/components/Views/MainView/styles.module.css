@@ -1,0 +1,10 @@
+.MainView {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    min-width: 360px;
+}
+
+.ResultsContainer {
+    justify-content: center;
+}

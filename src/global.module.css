@@ -1,7 +1,45 @@
 .UserImage {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border: solid;
     border-color: rgb(107, 107, 107);
     border-radius: 50%;
+    margin: 10px;
+}
+
+.Link {
+    color: azure;
+    padding: 3px;
+}
+
+.MainBackground {
+    height:100%;
+    width:100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.TitleB {
+    color:aliceblue;
+    font-size: 30px;
+    margin: 10px;
+}
+
+.ResultBarEven {
+    color: aliceblue;
+    justify-content: center;
+    background-color: rgb(49, 48, 47);
+    padding: 10px;
+}
+
+.ResultBarOdd {
+    color: aliceblue;
+    justify-content: center;
+    background-color: rgb(39, 38, 37);
+    padding: 10px;
+}
+
+.Profile {
+    background-color:rgb(39, 38, 37);
 }
