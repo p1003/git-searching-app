@@ -52,9 +52,11 @@ export const RepoView: FC = () => {
 
     return (
         <div>
-            <Link className={globalStyles.Link} to={`/${username}`}>Owner: {username}</Link>
-            <p>Repository: {repoName}</p>
-            <Link className={globalStyles.Link} to="/">Searching page</Link>
+            <p className={globalStyles.TitleB}>{repoName}</p>
+            <Link className={globalStyles.Link} to={`/${username}`}>{username}</Link>
+            <button className={globalStyles.BasicElement}>
+                <Link className={globalStyles.Link} to="/">Searching page</Link>
+            </button>
             { isLoading ? (
                 <p>Loading...</p>
             ) : isError ? (
@@ -72,7 +74,15 @@ export const RepoView: FC = () => {
                                 <div key={index}
                                     className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
                                     <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
-                                    <Link className={globalStyles.Link} to={`/${user.login}`}>{user.login}</Link>
+                                    <b className={globalStyles.TitleB}>{user.login}</b>
+                                    <button
+                                        className={globalStyles.BasicElement}>
+                                        <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
+                                    </button>
+                                    <button
+                                        className={globalStyles.BasicElement}>
+                                        <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
+                                    </button>
                                 </div>
                             )}
                             <Paging

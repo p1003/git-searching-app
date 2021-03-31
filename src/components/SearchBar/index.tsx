@@ -1,6 +1,7 @@
 import { FC, useState } from "react"
+import { sortValues, orderValues } from "../../utils"
 import styles from "./styles.module.css";
-import { sortValues, orderValues, Options } from "../../utils"
+import globalStyles from "../../global.module.css";
 
 type NavProps = {
     setSearchValue: (value: string) => void;
@@ -20,7 +21,7 @@ const OptionBar: FC<OptionProps> = props => {
     return (
         <div className={styles.AdvancedOption}>
             <b className={styles.AdvancedB}>{props.title}</b>
-            <input className={styles.Input}
+            <input className={globalStyles.BasicElement}
                 placeholder={props.placeholder}
                 type={props.type}
                 onChange={e => props.setValue(e.target.value)} />
@@ -38,17 +39,17 @@ export const SearchBar: FC<NavProps> = props => {
     return (
         <div className={styles.SearchBar}>
             <div className={styles.BasicSearch}>
-                <input className={styles.Input}
+                <input className={globalStyles.BasicElement}
                     placeholder="type search value"
                     type="text"
                     onChange={e => setInputName(e.target.value)} />
 
-                <button className={styles.Button} onClick={() => {
+                <button className={globalStyles.BasicElement} onClick={() => {
                     props.setSearchValue(inputName);
                     setAdvanced(false);
                 }}>Search</button>
             </div>
-            <button className={styles.Button}
+            <button className={globalStyles.BasicElement}
                 onClick={() => setAdvanced(!advanced)}>Advanced</button>
             { advanced &&
                 <div className={styles.Advanced}>

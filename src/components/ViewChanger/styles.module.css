@@ -10,7 +10,7 @@
     padding: 5px;
     border: solid;
     border-color:rgb(73, 123, 216);
-
+    border-width: 2px;
 }
 
 .NormalBtn {
@@ -20,5 +20,5 @@
     padding: 5px;
     border: solid;
     border-color:rgb(27, 78, 172);
-
+    border-width: 2px;
 }

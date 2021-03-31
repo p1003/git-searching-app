@@ -2,7 +2,6 @@
     position: sticky;
     top: 0;
     left: 0;
-    background-color:rgb(39, 38, 37);
     padding: 10px;
     text-align: center;
 }
@@ -10,31 +9,11 @@
 .BasicSearch {
     display: grid;
     grid-template-columns: auto 100px;
-    grid-column-gap: 20px;
+    grid-column-gap: 0px;
     margin-left: auto;
     margin-right: auto;
-}
-
-.Input {
-    font-family: 'Helvetica';
-    color: aliceblue;
-    background-color: rgb(77, 76, 76);
-    border: solid;
-    border-color:rgb(27, 78, 172);
-    border-radius: 8px;
-    text-align: center;
-    margin: 10px;
-}
-
-.Button {
-    font-family: 'Helvetica';
-    color: aliceblue;
-    background-color: rgb(77, 76, 76);
-    border: solid;
-    border-color:rgb(27, 78, 172);
-    border-radius: 8px;
-    text-align: center;
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .Advanced {
@@ -48,14 +27,16 @@
 .AdvancedOption {
     display: grid;
     grid-template-columns: 80px auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .AdvancedB {
     font-family: 'Helvetica';
     color:aliceblue;
     text-align: left;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .Datalist{

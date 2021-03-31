@@ -13,14 +13,6 @@
     padding: 3px;
 }
 
-.MainBackground {
-    height:100%;
-    width:100%;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .TitleB {
     font-family: 'Helvetica';
     color:aliceblue;
@@ -42,6 +34,16 @@
     padding: 10px;
 }
 
-.Profile {
-    background-color:rgb(39, 38, 37);
+.BasicElement {
+    font-family: 'Helvetica';
+    color: aliceblue;
+    background-color: rgb(77, 76, 76);
+    border: solid;
+    border-color:rgb(27, 78, 172);
+    border-radius: 8px;
+    border-width: 2px;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 24px;
 }

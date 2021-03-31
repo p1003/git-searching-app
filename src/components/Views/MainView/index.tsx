@@ -58,11 +58,17 @@ export const MainView: FC = () => {
                                 className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
                                 <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
                                 <b className={globalStyles.TitleB}>{user.login}</b>
-                                <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
-                                <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
+                                <button
+                                    className={globalStyles.BasicElement}>
+                                    <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
+                                </button>
+                                <button
+                                    className={globalStyles.BasicElement}>
+                                    <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
+                                </button>
                             </div>
                         ) : (
-                            <p>No results found</p>
+                            <p className={globalStyles.TitleB}>No results found :(</p>
                         )}
                         < Paging
                             currentPage={currentPage}
@@ -80,15 +86,19 @@ export const MainView: FC = () => {
                             <div key={repo?.id}
                                 className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
 
-                                <h3 className={styles.h3}>Owner: {repo.owner.login}</h3>
-                                <h3 className={styles.h3}>Repo Name: {repo.name}</h3>
-                                <div>
-                                    <a className={globalStyles.Link} href={repo?.html_url}>View on Github</a>
+                                <p className={globalStyles.TitleB}>{repo.name}</p>
+                                <p>{repo.owner.login}</p>
+                                <button
+                                    className={globalStyles.BasicElement}>
+                                    <a className={globalStyles.Link} href={repo?.html_url}>View on github</a>
+                                </button>
+                                <button
+                                    className={globalStyles.BasicElement}>
                                     <Link className={globalStyles.Link} to={`/${repo.owner.login}/${repo.name}`}>More info</Link>
-                                </div>
+                                </button>
                             </div>
                         ) : (
-                            <p>No results found</p>
+                            <p className={globalStyles.TitleB}>No results found :(</p>
                         )}
                         < Paging
                             currentPage={currentPage}

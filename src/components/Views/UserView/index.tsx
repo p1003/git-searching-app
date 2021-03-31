@@ -40,18 +40,18 @@ export const UserView: FC = () => {
 
     return (
         <div>
-            <Link className={globalStyles.Link} to="/">Searching page</Link>
+            <button className={globalStyles.BasicElement}>
+                <Link className={globalStyles.Link} to="/">Searching page</Link>
+            </button>
             { isLoading ? (
                 <p>Loading...</p>
             ) : isError ? (
                 <p>Error occured</p>
             ) : (
                 <div>
-                    <div className={globalStyles.Profile}>
-                        <img className={globalStyles.UserImage} src={userData?.avatar_url} alt="logo" />
-                        <b className={globalStyles.TitleB}
-                        >{userData?.login}</b>
-                    </div>
+                    <img className={globalStyles.UserImage} src={userData?.avatar_url} alt="logo" />
+                    <b className={globalStyles.TitleB}>{userData?.login}</b>
+                    
                     <ViewChanger setView={setView} view1={"Repositories " + userData?.public_repos} view2={"Followers " + userData?.followers} selectedView={view} />
                     {view === "Repositories " + userData?.public_repos ?
                         <>
@@ -63,10 +63,16 @@ export const UserView: FC = () => {
                                 <div key={repo.id}
                                     className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
 
-                                    <a className={globalStyles.Link} href={repo?.html_url}>View on github</a>
-                                    <p>Author: {repo.owner.login}</p>
-                                    <p>Repo name: {repo.name}</p>
-                                    <Link className={globalStyles.Link} to={`/${repo.owner.login}/${repo.name}`}>More info</Link>
+                                    <p className={globalStyles.TitleB}>{repo.name}</p>
+                                    <p>{repo.owner.login}</p>
+                                    <button
+                                        className={globalStyles.BasicElement}>
+                                        <a className={globalStyles.Link} href={repo?.html_url}>View on github</a>
+                                    </button>
+                                    <button
+                                        className={globalStyles.BasicElement}>
+                                        <Link className={globalStyles.Link} to={`/${repo.owner.login}/${repo.name}`}>More info</Link>
+                                    </button>
                                 </div>
                             )}
                             <Paging
@@ -86,8 +92,14 @@ export const UserView: FC = () => {
 
                                     <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
                                     <b className={globalStyles.TitleB}>{user.login}</b>
-                                    <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
-                                    <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
+                                    <button
+                                        className={globalStyles.BasicElement}>
+                                        <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
+                                    </button>
+                                    <button
+                                        className={globalStyles.BasicElement}>
+                                        <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
+                                    </button>
                                 </div>
                             )}
                             <Paging
