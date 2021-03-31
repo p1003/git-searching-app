@@ -69,7 +69,8 @@ export const RepoView: FC = () => {
                             ) : isContributorsError ? (
                                 <p>Error occured</p>
                             ) : repoContributors?.array.map((user: any, index: number) =>
-                                <div key={index}>
+                                <div key={index}
+                                    className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
                                     <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
                                     <Link className={globalStyles.Link} to={`/${user.login}`}>{user.login}</Link>
                                 </div>
@@ -86,7 +87,8 @@ export const RepoView: FC = () => {
                             ) : isCommitsError ? (
                                 <p>Error occured</p>
                             ) : repoCommits?.array.map((commit: any, index: number) =>
-                                <div key={index}>
+                                <div key={index}
+                                    className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
                                     <p>{commit.commit.author.name}</p>
                                     <p>{commit.commit.message}</p>
                                     <p>{commit.commit.author.date}</p>

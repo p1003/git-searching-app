@@ -8,6 +8,7 @@
 }
 
 .Link {
+    font-family: 'Helvetica';
     color: azure;
     padding: 3px;
 }
@@ -21,6 +22,7 @@
 }
 
 .TitleB {
+    font-family: 'Helvetica';
     color:aliceblue;
     font-size: 30px;
     margin: 10px;

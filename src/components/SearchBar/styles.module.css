@@ -16,6 +16,7 @@
 }
 
 .Input {
+    font-family: 'Helvetica';
     color: aliceblue;
     background-color: rgb(77, 76, 76);
     border: solid;
@@ -26,6 +27,7 @@
 }
 
 .Button {
+    font-family: 'Helvetica';
     color: aliceblue;
     background-color: rgb(77, 76, 76);
     border: solid;
@@ -49,6 +51,7 @@
 }
 
 .AdvancedB {
+    font-family: 'Helvetica';
     color:aliceblue;
     text-align: left;
     margin-top: 10px;
@@ -58,20 +61,3 @@
 .Datalist{
     width: 120px;
 }
-
-/* @media(min-width: 721px) {
-    .Advanced {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-}
-@media(max-width: 720px) {
-    .Advanced {
-        display: grid;
-        grid-template-columns: 60%;
-        grid-gap: auto;
-        margin-left: 20%;
-        margin-top: 10px;
-    }
-} */

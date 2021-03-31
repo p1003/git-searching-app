@@ -4,6 +4,7 @@
 }
 
 .SelectedBtn {
+    font-family: 'Helvetica';
     color: aliceblue;
     background-color:rgb(56, 54, 53);
     padding: 5px;
@@ -13,6 +14,7 @@
 }
 
 .NormalBtn {
+    font-family: 'Helvetica';
     color: aliceblue;
     background-color:rgb(39, 38, 37);
     padding: 5px;

@@ -80,8 +80,8 @@ export const MainView: FC = () => {
                             <div key={repo?.id}
                                 className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
 
-                                <h3>Owner: {repo.owner.login}</h3>
-                                <h3>Repo Name: {repo.name}</h3>
+                                <h3 className={styles.h3}>Owner: {repo.owner.login}</h3>
+                                <h3 className={styles.h3}>Repo Name: {repo.name}</h3>
                                 <div>
                                     <a className={globalStyles.Link} href={repo?.html_url}>View on Github</a>
                                     <Link className={globalStyles.Link} to={`/${repo.owner.login}/${repo.name}`}>More info</Link>
