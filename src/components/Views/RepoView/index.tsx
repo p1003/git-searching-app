@@ -52,18 +52,25 @@ export const RepoView: FC = () => {
 
     return (
         <div>
-            <p className={globalStyles.TitleB}>{repoName}</p>
-            <Link className={globalStyles.Link} to={`/${username}`}>{username}</Link>
-            <button className={globalStyles.BasicElement}>
-                <Link className={globalStyles.Link} to="/">Searching page</Link>
-            </button>
             { isLoading ? (
                 <p>Loading...</p>
             ) : isError ? (
                 <p>Error occured</p>
             ) : (
                 <div>
-                    <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
+                    <div className={globalStyles.Head}>
+                        <div>
+                            <b className={globalStyles.Title}>Github Searching App</b>
+                            <img className={globalStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+                        </div>
+                        <p className={globalStyles.TitleB}>{repoName}</p>
+                        <Link className={globalStyles.Link} to={`/${username}`}>{username}</Link>
+                        <button className={globalStyles.BasicElement}>
+                            <Link className={globalStyles.Link} to="/">Searching page</Link>
+                        </button>
+                        <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
+
+                    </div>
                     {view === "Contributors" ?
                         <>
                             { isContributorsLoading ? (

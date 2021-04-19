@@ -40,19 +40,24 @@ export const UserView: FC = () => {
 
     return (
         <div>
-            <button className={globalStyles.BasicElement}>
-                <Link className={globalStyles.Link} to="/">Searching page</Link>
-            </button>
             { isLoading ? (
                 <p>Loading...</p>
             ) : isError ? (
                 <p>Error occured</p>
             ) : (
                 <div>
-                    <img className={globalStyles.UserImage} src={userData?.avatar_url} alt="logo" />
-                    <b className={globalStyles.TitleB}>{userData?.login}</b>
-                    
-                    <ViewChanger setView={setView} view1={"Repositories " + userData?.public_repos} view2={"Followers " + userData?.followers} selectedView={view} />
+                    <div className={globalStyles.Head}>
+                        <div>
+                            <b className={globalStyles.Title}>Github Searching App</b>
+                            <img className={globalStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+                        </div>
+                        <img className={globalStyles.UserImage} src={userData?.avatar_url} alt="logo" />
+                        <b className={globalStyles.TitleB}>{userData?.login}</b>
+                        <button className={globalStyles.BasicElement}>
+                            <Link className={globalStyles.Link} to="/">Searching page</Link>
+                        </button>
+                        <ViewChanger setView={setView} view1={"Repositories " + userData?.public_repos} view2={"Followers " + userData?.followers} selectedView={view} />
+                    </div>
                     {view === "Repositories " + userData?.public_repos ?
                         <>
                             { isReposLoading ? (

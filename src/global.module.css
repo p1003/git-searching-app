@@ -13,6 +13,17 @@
     padding: 3px;
 }
 
+.Logo {
+    padding-top: 10px;
+}
+
+.Title {
+    font-family: 'Helvetica';
+    color:aliceblue;
+    font-size: 30px;
+    margin-left: 20px;
+}
+
 .TitleB {
     font-family: 'Helvetica';
     color:aliceblue;
@@ -46,4 +57,11 @@
     margin-left: 10px;
     margin-right: 10px;
     height: 24px;
+}
+
+.Head {
+    background-color:rgb(39, 38, 37);
+    position: sticky;
+    top: 0;
+    left: 0;
 }

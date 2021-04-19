@@ -6,7 +6,6 @@ import { Paging } from "../../Paging"
 import { ViewChanger } from '../../ViewChanger';
 import styles from "./styles.module.css";
 import globalStyles from "../../../global.module.css";
-import { Options } from "../../../utils"
 
 export const MainView: FC = () => {
 
@@ -39,13 +38,19 @@ export const MainView: FC = () => {
 
     return (
         <div className={styles.MainView}>
-            <SearchBar
-                setSearchValue={setSearchValue}
-                setPerPage={setPerPage}
-                setSort={setSort}
-                setOrder={setOrder}
-            />
-            <ViewChanger setView={setView} view1="Users" view2="Repositories" selectedView={view} />
+            <div className={globalStyles.Head}>
+                <div>
+                    <b className={globalStyles.Title}>Github Searching App</b>
+                    <img className={globalStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+                </div>
+                <SearchBar
+                    setSearchValue={setSearchValue}
+                    setPerPage={setPerPage}
+                    setSort={setSort}
+                    setOrder={setOrder}
+                />
+                <ViewChanger setView={setView} view1="Users" view2="Repositories" selectedView={view} />
+            </div>
             <div className={styles.ResultsContainer}>
                 {view === "Users" &&
                     (<>{isUsersLoading ? (

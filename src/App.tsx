@@ -10,10 +10,6 @@ function App() {
 
     return (
         <div className={styles.MainBackground}>
-            <div>
-                <b className={styles.Title}>Github Searching App</b>
-                <img className={styles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60"/>
-            </div>
             <Switch>
                 <Route path="/:username/:repoName">
                     <RepoView />
