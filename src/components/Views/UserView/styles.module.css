@@ -1,0 +1,6 @@
+.mainInfo {
+    display: flex;
+    /* justify-content: ; */
+    align-items: center;
+    padding: 20px;
+}

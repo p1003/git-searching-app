@@ -99,7 +99,7 @@ export const useUserData = (username: string, type: string, page: number) =>
     );
 
 export const useRepo = (username: string, repoName: string) =>
-    useQuery<{ name: string }>(
+    useQuery<{ name: string , owner: any}>(
         ["repo", username, repoName],
         async () => {
             const response = await fetch(
@@ -120,6 +120,7 @@ export const useRepo = (username: string, repoName: string) =>
         }
     );
 
+    
 export const useRepoData = (username: string, repoName: string, type: string, page: number) =>
     useQuery<{ pages: number | null, array: { name: string }[] }>(
         [type, username, repoName, page],
@@ -144,3 +145,21 @@ export const useRepoData = (username: string, repoName: string, type: string, pa
             keepPreviousData: true
         }
     );
+
+export const useFetch = (url_to_fetch: string) => 
+    useQuery(
+        [url_to_fetch],
+        async () => {
+            const response = await fetch(
+                url_to_fetch, {
+                "method": "GET",
+                "headers": headers
+            });
+            if(!response.ok) {
+                throw new Error(`Failed to load ${url_to_fetch}`);
+            }
+            const data = await response.json();
+            // console.log(data);
+            return data;
+        }
+    )

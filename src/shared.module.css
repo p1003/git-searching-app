@@ -1,20 +1,20 @@
 .UserImage {
-    width: 50px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
     border: solid;
-    border-color: rgb(107, 107, 107);
+    border-color: var(--backgroundgrey);
     border-radius: 50%;
-    margin: 10px;
+    margin: 0px;
 }
 
 .Link {
     font-family: 'Helvetica';
     color: azure;
-    padding: 3px;
+    padding: 10px;
 }
 
 .Logo {
-    padding-top: 10px;
+    padding: 0px;
 }
 
 .Title {
@@ -31,37 +31,55 @@
     margin: 10px;
 }
 
-.ResultBarEven {
-    color: aliceblue;
-    justify-content: center;
-    background-color: rgb(49, 48, 47);
-    padding: 10px;
+.plaintext {
+    font-family: 'Helvetica';
+    color:aliceblue;
+    margin: 4px;
+    margin-left: 10px;
 }
 
-.ResultBarOdd {
+.resultBar {
     color: aliceblue;
     justify-content: center;
-    background-color: rgb(39, 38, 37);
-    padding: 10px;
+    padding: 16px;
+}
+
+.even {
+    background-color: var(--evengrey);
+}
+
+.odd {
+    background-color: var(--oddgrey);
 }
 
 .BasicElement {
     font-family: 'Helvetica';
     color: aliceblue;
-    background-color: rgb(77, 76, 76);
+    background-color: var(--backgroundgrey);
     border: solid;
-    border-color:rgb(27, 78, 172);
+    border-color: var(--blue);
     border-radius: 8px;
     border-width: 2px;
     text-align: center;
     margin-left: 10px;
     margin-right: 10px;
-    height: 24px;
+    min-height: 28px;
 }
 
 .Head {
-    background-color:rgb(39, 38, 37);
+    background-color: var(--darkgrey);
     position: sticky;
     top: 0;
     left: 0;
+}
+
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.AppLogo {
+    display: flex;
+    align-items: center;
 }

@@ -3,15 +3,16 @@ import { Link, useParams } from "react-router-dom";
 import { useRepo, useRepoData } from "../../../API";
 import { Paging } from "../../Paging"
 import { ViewChanger } from '../../ViewChanger';
+import { User } from "../User";
 import styles from "./styles.module.css"
-import globalStyles from "../../../global.module.css"
+import sharedStyles from "../../../shared.module.css"
 
 export const RepoView: FC = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [maxConPage, setMaxConPage] = useState(1);
     const [maxCommitPage, setMaxCommitPage] = useState(1);
-    const [view, setView] = useState("");
+    const [view, setView] = useState("Contributors");
 
     useEffect(() => {
         setCurrentPage(1);
@@ -53,44 +54,37 @@ export const RepoView: FC = () => {
     return (
         <div>
             { isLoading ? (
-                <p>Loading...</p>
+                <p className={sharedStyles.TitleB}>Loading...</p>
             ) : isError ? (
-                <p>Error occured</p>
+                <p className={sharedStyles.TitleB}>Error occured</p>
             ) : (
                 <div>
-                    <div className={globalStyles.Head}>
-                        <div>
-                            <b className={globalStyles.Title}>Github Searching App</b>
-                            <img className={globalStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+                    <div className={sharedStyles.Head}>
+                        <div className={sharedStyles.Header}>
+                            <div className={sharedStyles.AppLogo}>
+                                <b className={sharedStyles.Title}>Github Searching App</b>
+                                <img className={sharedStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+                            </div>
+                            <button className={sharedStyles.BasicElement}>
+                                <Link className={sharedStyles.Link} to="/">Searching page</Link>
+                            </button>
                         </div>
-                        <p className={globalStyles.TitleB}>{repoName}</p>
-                        <Link className={globalStyles.Link} to={`/${username}`}>{username}</Link>
-                        <button className={globalStyles.BasicElement}>
-                            <Link className={globalStyles.Link} to="/">Searching page</Link>
-                        </button>
+
+                        <div className={styles.mainInfo}>
+                            <p className={sharedStyles.TitleB}>{repoData?.name}</p>
+                            <Link className={sharedStyles.Link} to={`/${repoData?.owner.login}`}>{repoData?.owner.login}</Link>
+                        </div>
                         <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
 
                     </div>
                     {view === "Contributors" ?
                         <>
                             { isContributorsLoading ? (
-                                <p>Loading...</p>
+                                <p className={sharedStyles.TitleB}>Loading...</p>
                             ) : isContributorsError ? (
-                                <p>Error occured</p>
+                                <p className={sharedStyles.TitleB}>Error occured</p>
                             ) : repoContributors?.array.map((user: any, index: number) =>
-                                <div key={index}
-                                    className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
-                                    <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
-                                    <b className={globalStyles.TitleB}>{user.login}</b>
-                                    <button
-                                        className={globalStyles.BasicElement}>
-                                        <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
-                                    </button>
-                                    <button
-                                        className={globalStyles.BasicElement}>
-                                        <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
-                                    </button>
-                                </div>
+                                <User user={user} index={index} key={index} />
                             )}
                             <Paging
                                 currentPage={currentPage}
@@ -100,12 +94,12 @@ export const RepoView: FC = () => {
                         : view === "Commits" &&
                         <>
                             { isCommitsLoading ? (
-                                <p>Loading...</p>
+                                <p className={sharedStyles.TitleB}>Loading...</p>
                             ) : isCommitsError ? (
-                                <p>Error occured</p>
+                                <p className={sharedStyles.TitleB}>Error occured</p>
                             ) : repoCommits?.array.map((commit: any, index: number) =>
                                 <div key={index}
-                                    className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
+                                    className={`${index % 2 === 0 ? sharedStyles.even : sharedStyles.odd} ${sharedStyles.resultBar}`}>
                                     <p>{commit.commit.author.name}</p>
                                     <p>{commit.commit.message}</p>
                                     <p>{commit.commit.author.date}</p>

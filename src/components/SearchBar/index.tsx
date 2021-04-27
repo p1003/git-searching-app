@@ -1,7 +1,7 @@
 import { FC, useState } from "react"
 import { sortValues, orderValues } from "../../utils"
 import styles from "./styles.module.css";
-import globalStyles from "../../global.module.css";
+import sharedStyles from "../../shared.module.css";
 
 type NavProps = {
     setSearchValue: (value: string) => void;
@@ -21,15 +21,13 @@ const OptionBar: FC<OptionProps> = props => {
     return (
         <div className={styles.AdvancedOption}>
             <b className={styles.AdvancedB}>{props.title}</b>
-            <input className={globalStyles.BasicElement}
+            <input className={sharedStyles.BasicElement}
                 placeholder={props.placeholder}
                 type={props.type}
                 onChange={e => props.setValue(e.target.value)} />
         </div>
     )
 }
-// Array.from(Array(100).keys()).map((elem: number) =>
-//                                     <option key={elem} value={elem + 1} />)
 
 export const SearchBar: FC<NavProps> = props => {
 
@@ -39,17 +37,17 @@ export const SearchBar: FC<NavProps> = props => {
     return (
         <div className={styles.SearchBar}>
             <div className={styles.BasicSearch}>
-                <input className={globalStyles.BasicElement}
+                <input className={sharedStyles.BasicElement}
                     placeholder="type search value"
                     type="text"
                     onChange={e => setInputName(e.target.value)} />
 
-                <button className={globalStyles.BasicElement} onClick={() => {
+                <button className={sharedStyles.BasicElement} onClick={() => {
                     props.setSearchValue(inputName);
                     setAdvanced(false);
                 }}>Search</button>
             </div>
-            <button className={globalStyles.BasicElement}
+            <button className={sharedStyles.BasicElement}
                 onClick={() => setAdvanced(!advanced)}>Advanced</button>
             { advanced &&
                 <div className={styles.Advanced}>

@@ -1,24 +1,22 @@
-.ViewChanger {
+.container {
     display: grid;
     grid-template-columns: 50% 50%;
 }
 
-.SelectedBtn {
-    font-family: 'Helvetica';
-    color: aliceblue;
+.selected {
     background-color:rgb(56, 54, 53);
-    padding: 5px;
-    border: solid;
-    border-color:rgb(73, 123, 216);
-    border-width: 2px;
 }
 
-.NormalBtn {
+.normal {
+    background-color:rgb(39, 38, 37);
+}
+
+.button {
     font-family: 'Helvetica';
     color: aliceblue;
-    background-color:rgb(39, 38, 37);
     padding: 5px;
     border: solid;
-    border-color:rgb(27, 78, 172);
-    border-width: 2px;
+    border-color:var(--blue);
+    border-left-width: 0px;
+    border-right-width: 0px;
 }

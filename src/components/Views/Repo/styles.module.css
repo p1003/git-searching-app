@@ -1,0 +1,23 @@
+.container {
+    max-width: 840px;
+    min-width: 640px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.infosection {
+
+}
+
+.infoline {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnsection {
+    display: flex;
+    align-items: center;
+}

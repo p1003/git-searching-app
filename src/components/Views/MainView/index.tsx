@@ -4,8 +4,10 @@ import { SearchBar } from "../../SearchBar"
 import { useSearch } from "../../../API";
 import { Paging } from "../../Paging"
 import { ViewChanger } from '../../ViewChanger';
+import { Repo } from "../Repo";
+import { User } from "../User";
 import styles from "./styles.module.css";
-import globalStyles from "../../../global.module.css";
+import sharedStyles from "../../../shared.module.css";
 
 export const MainView: FC = () => {
 
@@ -17,12 +19,6 @@ export const MainView: FC = () => {
     const [perPage, setPerPage] = useState(30);
     const [sort, setSort] = useState("");
     const [order, setOrder] = useState("");
-
-    useEffect(() => {
-        setCurrentPage(1);
-        setMaxUsersPage(0);
-        setMaxReposPage(0);
-    }, [searchValue]);
 
     const {
         isLoading: isUsersLoading,
@@ -36,12 +32,25 @@ export const MainView: FC = () => {
         data: searchedRepos,
     } = useSearch(searchValue, "repositories", currentPage, perPage, sort, order, "", "", "", setMaxReposPage);
 
+
+    useEffect(() => {
+        setCurrentPage(1);
+        setMaxUsersPage(0);
+        setMaxReposPage(0);
+        if (searchedUsers?.total_count) {
+            if (searchedUsers?.total_count >= searchedRepos?.total_count)
+                setView("Users");
+            else
+                setView("Repositories");
+        }
+    }, [searchValue]);
+
     return (
         <div className={styles.MainView}>
-            <div className={globalStyles.Head}>
-                <div>
-                    <b className={globalStyles.Title}>Github Searching App</b>
-                    <img className={globalStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+            <div className={sharedStyles.Head}>
+                <div className={sharedStyles.AppLogo}>
+                    <b className={sharedStyles.Title}>Github Searching App</b>
+                    <img className={sharedStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
                 </div>
                 <SearchBar
                     setSearchValue={setSearchValue}
@@ -54,26 +63,14 @@ export const MainView: FC = () => {
             <div className={styles.ResultsContainer}>
                 {view === "Users" &&
                     (<>{isUsersLoading ? (
-                        <p>Loading...</p>
+                        <p className={sharedStyles.TitleB}>Loading...</p>
                     ) : isUsersError ? (
-                        <p>Error occured</p>
+                        <p className={sharedStyles.TitleB}>Error occured</p>
                     ) : searchedUsers?.items.length > 0 ?
                         searchedUsers?.items.map((user: any, index: number) =>
-                            <div key={user.id}
-                                className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
-                                <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
-                                <b className={globalStyles.TitleB}>{user.login}</b>
-                                <button
-                                    className={globalStyles.BasicElement}>
-                                    <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
-                                </button>
-                                <button
-                                    className={globalStyles.BasicElement}>
-                                    <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
-                                </button>
-                            </div>
+                            <User user={user} index={index} key={index} />
                         ) : (
-                            <p className={globalStyles.TitleB}>No results found :(</p>
+                            <p className={sharedStyles.TitleB}>No results found :(</p>
                         )}
                         < Paging
                             currentPage={currentPage}
@@ -83,27 +80,14 @@ export const MainView: FC = () => {
                 }
                 {view === "Repositories" &&
                     (<>{isReposLoading ? (
-                        <p>Loading...</p>
+                        <p className={sharedStyles.TitleB}>Loading...</p>
                     ) : isReposError ? (
-                        <p>Error occured</p>
+                        <p className={sharedStyles.TitleB}>Error occured</p>
                     ) : searchedRepos?.items.length > 0 ?
                         searchedRepos?.items.map((repo: any, index: number) =>
-                            <div key={repo?.id}
-                                className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
-
-                                <p className={globalStyles.TitleB}>{repo.name}</p>
-                                <p>{repo.owner.login}</p>
-                                <button
-                                    className={globalStyles.BasicElement}>
-                                    <a className={globalStyles.Link} href={repo?.html_url}>View on github</a>
-                                </button>
-                                <button
-                                    className={globalStyles.BasicElement}>
-                                    <Link className={globalStyles.Link} to={`/${repo.owner.login}/${repo.name}`}>More info</Link>
-                                </button>
-                            </div>
+                            <Repo repo={repo} index={index} key={index} />
                         ) : (
-                            <p className={globalStyles.TitleB}>No results found :(</p>
+                            <p className={sharedStyles.TitleB}>No results found :(</p>
                         )}
                         < Paging
                             currentPage={currentPage}

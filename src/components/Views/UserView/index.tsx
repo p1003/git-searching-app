@@ -3,19 +3,15 @@ import { Link, useParams } from "react-router-dom"
 import { useUser, useUserData } from "../../../API"
 import { Paging } from "../../Paging"
 import { DEFAULT_PER_PAGE } from '../../../utils'
-import styles from "./styles.module.css"
-import globalStyles from "../../../global.module.css"
 import { ViewChanger } from "../../ViewChanger"
+import { Repo } from "../Repo";
+import { User } from "../User";
+import styles from "./styles.module.css"
+import sharedStyles from "../../../shared.module.css"
 
 export const UserView: FC = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [view, setView] = useState("");
-
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [view])
-
     const { username } = useParams<{ username: string }>();
 
     const {
@@ -37,48 +33,50 @@ export const UserView: FC = () => {
     } = useUserData(username, "followers", currentPage);
 
 
+    const [view, setView] = useState("Repositories " + userData?.public_repos);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [view])
+
+    useEffect(() => {
+        setView("Repositories " + userData?.public_repos);
+    }, [userData?.public_repos])
 
     return (
         <div>
             { isLoading ? (
-                <p>Loading...</p>
+                <p className={sharedStyles.TitleB}>Loading...</p>
             ) : isError ? (
-                <p>Error occured</p>
+                <p className={sharedStyles.TitleB}>Error occured</p>
             ) : (
                 <div>
-                    <div className={globalStyles.Head}>
-                        <div>
-                            <b className={globalStyles.Title}>Github Searching App</b>
-                            <img className={globalStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+                    <div className={sharedStyles.Head}>
+                        <div className={sharedStyles.Header}>
+                            <div className={sharedStyles.AppLogo}>
+                                <b className={sharedStyles.Title}>Github Searching App</b>
+                                <img className={sharedStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
+                            </div>
+                            <button className={sharedStyles.BasicElement}>
+                                <Link className={sharedStyles.Link} to="/">Searching page</Link>
+                            </button>
                         </div>
-                        <img className={globalStyles.UserImage} src={userData?.avatar_url} alt="logo" />
-                        <b className={globalStyles.TitleB}>{userData?.login}</b>
-                        <button className={globalStyles.BasicElement}>
-                            <Link className={globalStyles.Link} to="/">Searching page</Link>
-                        </button>
+
+                        <div className={styles.mainInfo}>
+                            <img className={sharedStyles.UserImage} src={userData?.avatar_url} alt="logo" />
+                            <b className={sharedStyles.TitleB}>{userData?.login}</b>
+                        </div>
+
                         <ViewChanger setView={setView} view1={"Repositories " + userData?.public_repos} view2={"Followers " + userData?.followers} selectedView={view} />
                     </div>
                     {view === "Repositories " + userData?.public_repos ?
                         <>
                             { isReposLoading ? (
-                                <p>Loading...</p>
+                                <p className={sharedStyles.TitleB}>Loading...</p>
                             ) : isReposError ? (
-                                <p>Error occured</p>
+                                <p className={sharedStyles.TitleB}>Error occured</p>
                             ) : userRepos?.map((repo: any, index: number) =>
-                                <div key={repo.id}
-                                    className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
-
-                                    <p className={globalStyles.TitleB}>{repo.name}</p>
-                                    <p>{repo.owner.login}</p>
-                                    <button
-                                        className={globalStyles.BasicElement}>
-                                        <a className={globalStyles.Link} href={repo?.html_url}>View on github</a>
-                                    </button>
-                                    <button
-                                        className={globalStyles.BasicElement}>
-                                        <Link className={globalStyles.Link} to={`/${repo.owner.login}/${repo.name}`}>More info</Link>
-                                    </button>
-                                </div>
+                                <Repo repo={repo} index={index} key={index} />
                             )}
                             <Paging
                                 currentPage={currentPage}
@@ -88,24 +86,11 @@ export const UserView: FC = () => {
                         : view === "Followers " + userData?.followers &&
                         <>
                             { isFollowersLoading ? (
-                                <p>Loading...</p>
+                                <p className={sharedStyles.TitleB}>Loading...</p>
                             ) : isFollowersError ? (
-                                <p>Error occured</p>
+                                <p className={sharedStyles.TitleB}>Error occured</p>
                             ) : userFollowers?.map((user: any, index: number) =>
-                                <div key={user.login}
-                                    className={index % 2 === 0 ? globalStyles.ResultBarEven : globalStyles.ResultBarOdd}>
-
-                                    <img className={globalStyles.UserImage} src={user.avatar_url} alt="logo" />
-                                    <b className={globalStyles.TitleB}>{user.login}</b>
-                                    <button
-                                        className={globalStyles.BasicElement}>
-                                        <a className={globalStyles.Link} href={user.html_url}>View on Github</a>
-                                    </button>
-                                    <button
-                                        className={globalStyles.BasicElement}>
-                                        <Link className={globalStyles.Link} to={`/${user.login}`}>More info</Link>
-                                    </button>
-                                </div>
+                                <User user={user} index={index} key={index} />
                             )}
                             <Paging
                                 currentPage={currentPage}

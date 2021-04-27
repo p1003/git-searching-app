@@ -1,0 +1,15 @@
+html,body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--backgroundgrey);
+    /* overflow: hidden; */
+}
+
+:root {
+    --darkgrey: rgb(39, 38, 37);
+    --blue: rgb(27, 78, 172);
+    --evengrey: rgb(42, 41, 40);
+    --oddgrey: rgb(45, 44, 43);
+    --backgroundgrey: rgb(77, 77, 77);
+    --green: rgb(29, 161, 35);
+}
