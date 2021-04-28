@@ -1,5 +1,14 @@
 .mainInfo {
-    /* display: flex; */
-    /* justify-content: ; */
     align-items: center;
+    margin-left: 20px;
+    margin: 5px;
+}
+
+.commit_container {
+    max-width: 440px;
+}
+
+.infoline {
+    display: flex;
+    justify-content: space-between;
 }

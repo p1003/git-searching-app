@@ -18,10 +18,10 @@ export function checkNumSearch(value: string): string {
     const searches = value.replace(" ","").split(",");
     searches.forEach(option => {
         if (option.substr(0, 1) === "<" || option.substr(0, 1) === ">") {
-            const number = parseInt(option.substr(1));
+            // const number = parseInt(option.substr(1));
         } else {
             const numbers = value.split("..");
-            if (numbers.length == 2) {
+            if (numbers.length === 2) {
                 return false;
             }
         }

@@ -78,7 +78,7 @@ export const SearchBar: FC<NavProps> = props => {
                     onClick={() => {
                         if (!isSearchEmpty()) {
                             props.setSearchValue(searchValue());
-                            setAdvanced(!advanced);
+                            setAdvanced(false);
                         }
                     }}>Search</button>
             </div>

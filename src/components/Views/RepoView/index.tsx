@@ -71,7 +71,7 @@ export const RepoView: FC = () => {
 
                     <div className={styles.mainInfo}>
                         <p className={sharedStyles.TitleB}>{repoData?.name}</p>
-                        <Link className={sharedStyles.Link} to={`/${repoData?.owner.login}`}>{repoData?.owner.login}</Link>
+                        <Link className={sharedStyles.Link} to={`/${repoData?.owner.login}`}>View owner {repoData?.owner.login}</Link>
                     </div>
                     <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
 
@@ -99,9 +99,20 @@ export const RepoView: FC = () => {
                         ) : repoCommits?.array.map((commit: any, index: number) =>
                             <div key={index}
                                 className={`${index % 2 === 0 ? sharedStyles.even : sharedStyles.odd} ${sharedStyles.resultBar}`}>
-                                <p>{commit.commit.author.name}</p>
-                                <p>{commit.commit.message}</p>
-                                <p>{commit.commit.author.date}</p>
+                                <div className={styles.commit_container}>
+                                    <div className={styles.infoline}>
+                                        <p className={sharedStyles.plaintext}>Author</p>
+                                        <p className={sharedStyles.plaintext}>{commit.commit.author.name}</p>
+                                    </div>
+                                    <div className={styles.infoline}>
+                                        <p className={sharedStyles.plaintext}>Message</p>
+                                        <p className={sharedStyles.plaintext}>{commit.commit.message}</p>
+                                    </div>
+                                    <div className={styles.infoline}>
+                                        <p className={sharedStyles.plaintext}>Date</p>
+                                        <p className={sharedStyles.plaintext}>{commit.commit.author.date}</p>
+                                    </div>
+                                </div>
                             </div>
                         )}
                         <Paging

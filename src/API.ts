@@ -56,7 +56,13 @@ export const useSearch = (
             }
             const data = await response.json();
             console.log(data);
-            setMaxPage(Math.ceil(data.total_count / perPage));
+            const head = response.headers.get("link");
+            console.log(head);
+            // console.log(head?.split(",")[1].replace(">", "").split(";")[0].split("=")[2]);
+            // const num = head && parseInt(head.split(",")[1].replace(">", "").split(";")[0].split("=")[2]);
+            // console.log(num);
+            const maxResults = data.total_count < 1000 ? data.total_count : 1000;
+            setMaxPage(Math.ceil(maxResults / perPage));
             return data;
         },
         {

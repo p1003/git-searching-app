@@ -34,6 +34,7 @@
 .plaintext {
     font-family: 'Helvetica';
     color:aliceblue;
+    padding: 3px;
     margin: 4px;
     margin-left: 10px;
 }

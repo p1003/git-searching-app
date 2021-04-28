@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
 import { SearchBar } from "../../SearchBar"
 import { useSearch } from "../../../API";
 import { Paging } from "../../Paging"
@@ -37,13 +36,20 @@ export const MainView: FC = () => {
         setCurrentPage(1);
         setMaxUsersPage(0);
         setMaxReposPage(0);
-
-        if (searchedUsers?.total_count >= searchedRepos?.total_count)
-            setView("Users");
-        else
-            setView("Repositories");
-
     }, [searchValue]);
+
+    const [countU, setCountU] = useState(0);
+    const [countR, setCountR] = useState(0);
+
+    useEffect(() => {
+        if (searchedUsers)
+            setCountU(searchedUsers.total_count);
+    }, [searchedUsers?.total_count])
+
+    useEffect(() => {
+        if (searchedRepos)
+            setCountR(searchedRepos.total_count);
+    }, [searchedRepos?.total_count])
 
     return (
         <div className={styles.MainView}>
@@ -58,10 +64,10 @@ export const MainView: FC = () => {
                     setSort={setSort}
                     setOrder={setOrder}
                 />
-                <ViewChanger setView={setView} view1="Users" view2="Repositories" selectedView={view} />
+                <ViewChanger setView={setView} view1={`Users ${countU}`} view2={`Repositories ${countR}`} selectedView={view} />
             </div>
             <div className={styles.ResultsContainer}>
-                {view === "Users" &&
+                {view === `Users ${countU}` &&
                     (<>{isUsersLoading ? (
                         <p className={sharedStyles.TitleB}>Loading...</p>
                     ) : isUsersError ? (
@@ -78,7 +84,7 @@ export const MainView: FC = () => {
                             setCurrentPage={setCurrentPage} />
                     </>)
                 }
-                {view === "Repositories" &&
+                {view === `Repositories ${countR}` &&
                     (<>{isReposLoading ? (
                         <p className={sharedStyles.TitleB}>Loading...</p>
                     ) : isReposError ? (
