@@ -8,6 +8,8 @@ type NavProps = {
     setPerPage: (value: number) => void;
     setSort: (value: string) => void;
     setOrder: (value: string) => void;
+    setStars: (value: string) => void;
+    setForks: (value: string) => void;
 }
 
 type OptionProps = {
@@ -42,10 +44,11 @@ export const SearchBar: FC<NavProps> = props => {
                     type="text"
                     onChange={e => setInputName(e.target.value)} />
 
-                <button className={sharedStyles.BasicElement} onClick={() => {
-                    props.setSearchValue(inputName);
-                    setAdvanced(false);
-                }}>Search</button>
+                <button className={sharedStyles.BasicElement}
+                    onClick={() => {
+                        props.setSearchValue(inputName);
+                        setAdvanced(false);
+                    }}>Search</button>
             </div>
             <button className={sharedStyles.BasicElement}
                 onClick={() => setAdvanced(!advanced)}>Advanced</button>
@@ -80,23 +83,17 @@ export const SearchBar: FC<NavProps> = props => {
 
                     <OptionBar title="Stars" type="text" placeholder=">num , <num , num1..num2"
                         setValue={value => {
-                            orderValues.forEach(element => {
-                                console.log("Implement me ~Stars");
-                            })
+                            props.setStars(value);
                         }} />
 
                     <OptionBar title="Forks" type="text" placeholder=">num , <num , num1..num2"
                         setValue={value => {
-                            orderValues.forEach(element => {
-                                console.log("Implement me ~Forks");
-                            })
+                            props.setForks(value);
                         }} />
 
                     <OptionBar title="Followers" type="text" placeholder=">num , <num , num1..num2"
                         setValue={value => {
-                            orderValues.forEach(element => {
-                                console.log("Implement me ~Followers");
-                            })
+                            props.setForks(value);
                         }} />
                 </div>
             }

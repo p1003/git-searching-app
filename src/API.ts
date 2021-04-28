@@ -20,32 +20,50 @@ export const useSearch = (
     useQuery(
         [searchType, searchInput, page, perPage, sort, order],
         async () => {
-                let url = `https://api.github.com/search/${searchType}?q=${searchInput}`;
-                if (page > 0) {
-                    url += `&page=${page}`;
+            let url = `https://api.github.com/search/${searchType}?q=${searchInput}`;
+            if (stars !== "") {
+                const starList = stars.split(",");
+                // url += `&stars%3A${starList[0]}`;
+                for (var i = 0; i < starList.length; i++) {
+                    url += `+stars%3A${starList[i]}`;
                 }
-                if (perPage > 1 && perPage <= MAX_PER_PAGE && perPage !== DEFAULT_PER_PAGE) {
-                    url += `&per_page=${perPage}`;
+            }
+            if (forks !== "") {
+                const forkList = forks.split(",");
+                // if (stars !== "") {
+                //     url += `+forks%3A${forks}`;
+                // } else {
+                //     url += `&forks%3A${forks}`;
+                // }
+                for (var i = 0; i < forkList.length; i++) {
+                    url += `+forks%3A${forkList[i]}`;
                 }
-                if (sort !== "") {
-                    url += `&sort=${sort}`;
-                    if (order !== "") {
-                        url += `&order=${order}`;
-                    }
+            }
+            if (page > 0) {
+                url += `&page=${page}`;
+            }
+            if (perPage > 1 && perPage <= MAX_PER_PAGE && perPage !== DEFAULT_PER_PAGE) {
+                url += `&per_page=${perPage}`;
+            }
+            if (sort !== "") {
+                url += `&sort=${sort}`;
+                if (order !== "") {
+                    url += `&order=${order}`;
                 }
-                console.log("url: " + url)
-                const response = await fetch(
-                    url, {
-                    "method": "GET",
-                    "headers": headers
-                });
-                if (!response.ok) {
-                    throw new Error(`Failed to load search for ${searchInput}`)
-                }
-                const data = await response.json();
-                console.log(data);
-                setMaxPage(Math.ceil(data.total_count / perPage));
-                return data;
+            }
+            console.log("url: " + url)
+            const response = await fetch(
+                url, {
+                "method": "GET",
+                "headers": headers
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to load search for ${searchInput}`)
+            }
+            const data = await response.json();
+            console.log(data);
+            setMaxPage(Math.ceil(data.total_count / perPage));
+            return data;
         },
         {
             enabled: searchInput !== "" && searchType !== ""
@@ -75,7 +93,7 @@ export const useUser = (username: string) =>
     );
 
 export const useUserData = (username: string, type: string, page: number) =>
-    useQuery<{ name: string }[] >(
+    useQuery<{ name: string }[]>(
         [type, username, page],
         async () => {
             // https://api.github.com/users/apohllo/repos
@@ -99,7 +117,7 @@ export const useUserData = (username: string, type: string, page: number) =>
     );
 
 export const useRepo = (username: string, repoName: string) =>
-    useQuery<{ name: string , owner: any}>(
+    useQuery<{ name: string, owner: any }>(
         ["repo", username, repoName],
         async () => {
             const response = await fetch(
@@ -120,7 +138,6 @@ export const useRepo = (username: string, repoName: string) =>
         }
     );
 
-    
 export const useRepoData = (username: string, repoName: string, type: string, page: number) =>
     useQuery<{ pages: number | null, array: { name: string }[] }>(
         [type, username, repoName, page],
@@ -146,7 +163,7 @@ export const useRepoData = (username: string, repoName: string, type: string, pa
         }
     );
 
-export const useFetch = (url_to_fetch: string) => 
+export const useFetch = (url_to_fetch: string) =>
     useQuery(
         [url_to_fetch],
         async () => {
@@ -155,7 +172,7 @@ export const useFetch = (url_to_fetch: string) =>
                 "method": "GET",
                 "headers": headers
             });
-            if(!response.ok) {
+            if (!response.ok) {
                 throw new Error(`Failed to load ${url_to_fetch}`);
             }
             const data = await response.json();

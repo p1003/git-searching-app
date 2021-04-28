@@ -4,11 +4,11 @@
 }
 
 .selected {
-    background-color:rgb(56, 54, 53);
+    background-color:var(--oddgrey);
 }
 
 .normal {
-    background-color:rgb(39, 38, 37);
+    background-color:var(--darkgrey);
 }
 
 .button {
