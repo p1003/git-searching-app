@@ -13,32 +13,26 @@ export const useSearch = (
     perPage: number,
     sort: string,
     order: string,
-    stars: string,
-    forks: string,
-    followers: string,
+    // stars: string,
+    // forks: string,
+    // followers: string,
     setMaxPage: (page: number) => void) =>
     useQuery(
         [searchType, searchInput, page, perPage, sort, order],
         async () => {
             let url = `https://api.github.com/search/${searchType}?q=${searchInput}`;
-            if (stars !== "") {
-                const starList = stars.split(",");
-                // url += `&stars%3A${starList[0]}`;
-                for (var i = 0; i < starList.length; i++) {
-                    url += `+stars%3A${starList[i]}`;
-                }
-            }
-            if (forks !== "") {
-                const forkList = forks.split(",");
-                // if (stars !== "") {
-                //     url += `+forks%3A${forks}`;
-                // } else {
-                //     url += `&forks%3A${forks}`;
-                // }
-                for (var i = 0; i < forkList.length; i++) {
-                    url += `+forks%3A${forkList[i]}`;
-                }
-            }
+            // if (stars !== "") {
+            //     const starList = stars.split(",");
+            //     for (var i = 0; i < starList.length; i++) {
+            //         url += `+stars%3A${starList[i]}`;
+            //     }
+            // }
+            // if (forks !== "") {
+            //     const forkList = forks.split(",");
+            //     for (var i = 0; i < forkList.length; i++) {
+            //         url += `+forks%3A${forkList[i]}`;
+            //     }
+            // }
             if (page > 0) {
                 url += `&page=${page}`;
             }

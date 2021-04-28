@@ -1,5 +1,7 @@
 .MainBackground {
     background-color:rgb(50,50,50);
     width:80%;
+    max-width: 1000px;
+    min-width: 580px;
     margin: auto;
 }

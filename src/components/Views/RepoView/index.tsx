@@ -52,68 +52,66 @@ export const RepoView: FC = () => {
     }, [repoCommits])
 
     return (
-        <div>
-            { isLoading ? (
-                <p className={sharedStyles.TitleB}>Loading...</p>
-            ) : isError ? (
-                <p className={sharedStyles.TitleB}>Error occured</p>
-            ) : (
-                <div>
-                    <div className={sharedStyles.Head}>
-                        <div className={sharedStyles.Header}>
-                            <div className={sharedStyles.AppLogo}>
-                                <b className={sharedStyles.Title}>Github Searching App</b>
-                                <img className={sharedStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
-                            </div>
-                            <button className={sharedStyles.BasicElement}>
-                                <Link className={sharedStyles.Link} to="/">Searching page</Link>
-                            </button>
+        isLoading ? (
+            <p className={sharedStyles.TitleB}>Loading...</p>
+        ) : isError ? (
+            <p className={sharedStyles.TitleB}>Error occured</p>
+        ) : (
+            <div className="RepoView">
+                <div className={sharedStyles.Head}>
+                    <div className={sharedStyles.Header}>
+                        <div className={sharedStyles.AppLogo}>
+                            <b className={sharedStyles.Title}>Github Searching App</b>
+                            <img className={sharedStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
                         </div>
-
-                        <div className={styles.mainInfo}>
-                            <p className={sharedStyles.TitleB}>{repoData?.name}</p>
-                            <Link className={sharedStyles.Link} to={`/${repoData?.owner.login}`}>{repoData?.owner.login}</Link>
-                        </div>
-                        <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
-
+                        <button className={sharedStyles.BasicElement}>
+                            <Link className={sharedStyles.Link} to="/">Searching page</Link>
+                        </button>
                     </div>
-                    {view === "Contributors" ?
-                        <>
-                            { isContributorsLoading ? (
-                                <p className={sharedStyles.TitleB}>Loading...</p>
-                            ) : isContributorsError ? (
-                                <p className={sharedStyles.TitleB}>Error occured</p>
-                            ) : repoContributors?.array.map((user: any, index: number) =>
-                                <User user={user} index={index} key={index} />
-                            )}
-                            <Paging
-                                currentPage={currentPage}
-                                maxPage={maxConPage}
-                                setCurrentPage={setCurrentPage} />
-                        </>
-                        : view === "Commits" &&
-                        <>
-                            { isCommitsLoading ? (
-                                <p className={sharedStyles.TitleB}>Loading...</p>
-                            ) : isCommitsError ? (
-                                <p className={sharedStyles.TitleB}>Error occured</p>
-                            ) : repoCommits?.array.map((commit: any, index: number) =>
-                                <div key={index}
-                                    className={`${index % 2 === 0 ? sharedStyles.even : sharedStyles.odd} ${sharedStyles.resultBar}`}>
-                                    <p>{commit.commit.author.name}</p>
-                                    <p>{commit.commit.message}</p>
-                                    <p>{commit.commit.author.date}</p>
-                                </div>
-                            )}
-                            <Paging
-                                currentPage={currentPage}
-                                maxPage={maxCommitPage}
-                                setCurrentPage={setCurrentPage} />
-                        </>
 
-                    }
+                    <div className={styles.mainInfo}>
+                        <p className={sharedStyles.TitleB}>{repoData?.name}</p>
+                        <Link className={sharedStyles.Link} to={`/${repoData?.owner.login}`}>{repoData?.owner.login}</Link>
+                    </div>
+                    <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
+
                 </div>
-            )}
-        </div>
+                {view === "Contributors" ?
+                    <>
+                        { isContributorsLoading ? (
+                            <p className={sharedStyles.TitleB}>Loading...</p>
+                        ) : isContributorsError ? (
+                            <p className={sharedStyles.TitleB}>Error occured</p>
+                        ) : repoContributors?.array.map((user: any, index: number) =>
+                            <User user={user} index={index} key={index} />
+                        )}
+                        <Paging
+                            currentPage={currentPage}
+                            maxPage={maxConPage}
+                            setCurrentPage={setCurrentPage} />
+                    </>
+                    : view === "Commits" &&
+                    <>
+                        { isCommitsLoading ? (
+                            <p className={sharedStyles.TitleB}>Loading...</p>
+                        ) : isCommitsError ? (
+                            <p className={sharedStyles.TitleB}>Error occured</p>
+                        ) : repoCommits?.array.map((commit: any, index: number) =>
+                            <div key={index}
+                                className={`${index % 2 === 0 ? sharedStyles.even : sharedStyles.odd} ${sharedStyles.resultBar}`}>
+                                <p>{commit.commit.author.name}</p>
+                                <p>{commit.commit.message}</p>
+                                <p>{commit.commit.author.date}</p>
+                            </div>
+                        )}
+                        <Paging
+                            currentPage={currentPage}
+                            maxPage={maxCommitPage}
+                            setCurrentPage={setCurrentPage} />
+                    </>
+
+                }
+            </div>
+        )
     )
 }

@@ -21,6 +21,10 @@
     margin-top: 10px;
 }
 
+.hidden {
+    display: none;
+}
+
 .AdvancedOption {
     display: grid;
     grid-template-columns: 80px auto;

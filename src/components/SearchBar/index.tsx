@@ -8,8 +8,6 @@ type NavProps = {
     setPerPage: (value: number) => void;
     setSort: (value: string) => void;
     setOrder: (value: string) => void;
-    setStars: (value: string) => void;
-    setForks: (value: string) => void;
 }
 
 type OptionProps = {
@@ -34,7 +32,39 @@ const OptionBar: FC<OptionProps> = props => {
 export const SearchBar: FC<NavProps> = props => {
 
     const [inputName, setInputName] = useState("");
+    const [stars, setStars] = useState("");
+    const [forks, setForks] = useState("");
+    const [followers, setFollowers] = useState("");
     const [advanced, setAdvanced] = useState(false);
+
+    function isSearchEmpty() {
+        return inputName === "" && stars === "" && forks === "" && followers === "";
+    }
+
+    function forString(result: string, flatMap: string, type: string): string {
+        if(flatMap !== "") {
+            if(result !== "") {
+                result += "+";
+            }
+            const list = flatMap.replace(" ", "").split(",");
+            const N = list.length;
+            for(var i = 0; i < N; i++) {
+                result += `${type}%3A${list[i]}`;
+                if(i < N-1) {
+                    result += "+";
+                }
+            }
+        }
+        return result;
+    }
+
+    function searchValue(): string {
+        let result = inputName;
+        result = forString(result,stars,"stars");
+        result = forString(result,forks,"forks");
+        result = forString(result,followers,"followers");
+        return result;
+    }
 
     return (
         <div className={styles.SearchBar}>
@@ -46,14 +76,15 @@ export const SearchBar: FC<NavProps> = props => {
 
                 <button className={sharedStyles.BasicElement}
                     onClick={() => {
-                        props.setSearchValue(inputName);
-                        setAdvanced(false);
+                        if (!isSearchEmpty()) {
+                            props.setSearchValue(searchValue());
+                            setAdvanced(!advanced);
+                        }
                     }}>Search</button>
             </div>
             <button className={sharedStyles.BasicElement}
                 onClick={() => setAdvanced(!advanced)}>Advanced</button>
-            { advanced &&
-                <div className={styles.Advanced}>
+                <div className={`${styles.Advanced} ${!advanced && styles.hidden}`}>
 
                     <OptionBar title="Per Page" type="number" placeholder="number from 1 to 100"
                         setValue={value => {
@@ -83,20 +114,19 @@ export const SearchBar: FC<NavProps> = props => {
 
                     <OptionBar title="Stars" type="text" placeholder=">num , <num , num1..num2"
                         setValue={value => {
-                            props.setStars(value);
+                            setStars(value);
                         }} />
 
                     <OptionBar title="Forks" type="text" placeholder=">num , <num , num1..num2"
                         setValue={value => {
-                            props.setForks(value);
+                            setForks(value);
                         }} />
 
                     <OptionBar title="Followers" type="text" placeholder=">num , <num , num1..num2"
                         setValue={value => {
-                            props.setForks(value);
+                            setFollowers(value);
                         }} />
                 </div>
-            }
         </div>
     )
 }

@@ -44,63 +44,61 @@ export const UserView: FC = () => {
     }, [userData?.public_repos])
 
     return (
-        <div>
-            { isLoading ? (
-                <p className={sharedStyles.TitleB}>Loading...</p>
-            ) : isError ? (
-                <p className={sharedStyles.TitleB}>Error occured</p>
-            ) : (
-                <div>
-                    <div className={sharedStyles.Head}>
-                        <div className={sharedStyles.Header}>
-                            <div className={sharedStyles.AppLogo}>
-                                <b className={sharedStyles.Title}>Github Searching App</b>
-                                <img className={sharedStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
-                            </div>
-                            <button className={sharedStyles.BasicElement}>
-                                <Link className={sharedStyles.Link} to="/">Searching page</Link>
-                            </button>
+        isLoading ? (
+            <p className={sharedStyles.TitleB}>Loading...</p>
+        ) : isError ? (
+            <p className={sharedStyles.TitleB}>Error occured</p>
+        ) : (
+            <div className="UserView">
+                <div className={sharedStyles.Head}>
+                    <div className={sharedStyles.Header}>
+                        <div className={sharedStyles.AppLogo}>
+                            <b className={sharedStyles.Title}>Github Searching App</b>
+                            <img className={sharedStyles.Logo} src="https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg" width="60" height="60" />
                         </div>
-
-                        <div className={styles.mainInfo}>
-                            <img className={sharedStyles.UserImage} src={userData?.avatar_url} alt="logo" />
-                            <b className={sharedStyles.TitleB}>{userData?.login}</b>
-                        </div>
-
-                        <ViewChanger setView={setView} view1={"Repositories " + userData?.public_repos} view2={"Followers " + userData?.followers} selectedView={view} />
+                        <button className={sharedStyles.BasicElement}>
+                            <Link className={sharedStyles.Link} to="/">Searching page</Link>
+                        </button>
                     </div>
-                    {view === "Repositories " + userData?.public_repos ?
-                        <>
-                            { isReposLoading ? (
-                                <p className={sharedStyles.TitleB}>Loading...</p>
-                            ) : isReposError ? (
-                                <p className={sharedStyles.TitleB}>Error occured</p>
-                            ) : userRepos?.map((repo: any, index: number) =>
-                                <Repo repo={repo} index={index} key={index} />
-                            )}
-                            <Paging
-                                currentPage={currentPage}
-                                maxPage={userData ? Math.ceil(userData?.public_repos / DEFAULT_PER_PAGE) : 1}
-                                setCurrentPage={setCurrentPage} />
-                        </>
-                        : view === "Followers " + userData?.followers &&
-                        <>
-                            { isFollowersLoading ? (
-                                <p className={sharedStyles.TitleB}>Loading...</p>
-                            ) : isFollowersError ? (
-                                <p className={sharedStyles.TitleB}>Error occured</p>
-                            ) : userFollowers?.map((user: any, index: number) =>
-                                <User user={user} index={index} key={index} />
-                            )}
-                            <Paging
-                                currentPage={currentPage}
-                                maxPage={userData ? Math.ceil(userData?.followers / DEFAULT_PER_PAGE) : 1}
-                                setCurrentPage={setCurrentPage} />
-                        </>
 
-                    }
+                    <div className={styles.mainInfo}>
+                        <img className={sharedStyles.UserImage} src={userData?.avatar_url} alt="logo" />
+                        <b className={sharedStyles.TitleB}>{userData?.login}</b>
+                    </div>
+
+                    <ViewChanger setView={setView} view1={"Repositories " + userData?.public_repos} view2={"Followers " + userData?.followers} selectedView={view} />
                 </div>
-            )}
-        </div>
+                {view === "Repositories " + userData?.public_repos ?
+                    <>
+                        { isReposLoading ? (
+                            <p className={sharedStyles.TitleB}>Loading...</p>
+                        ) : isReposError ? (
+                            <p className={sharedStyles.TitleB}>Error occured</p>
+                        ) : userRepos?.map((repo: any, index: number) =>
+                            <Repo repo={repo} index={index} key={index} />
+                        )}
+                        <Paging
+                            currentPage={currentPage}
+                            maxPage={userData ? Math.ceil(userData?.public_repos / DEFAULT_PER_PAGE) : 1}
+                            setCurrentPage={setCurrentPage} />
+                    </>
+                    : view === "Followers " + userData?.followers &&
+                    <>
+                        { isFollowersLoading ? (
+                            <p className={sharedStyles.TitleB}>Loading...</p>
+                        ) : isFollowersError ? (
+                            <p className={sharedStyles.TitleB}>Error occured</p>
+                        ) : userFollowers?.map((user: any, index: number) =>
+                            <User user={user} index={index} key={index} />
+                        )}
+                        <Paging
+                            currentPage={currentPage}
+                            maxPage={userData ? Math.ceil(userData?.followers / DEFAULT_PER_PAGE) : 1}
+                            setCurrentPage={setCurrentPage} />
+                    </>
+
+                }
+            </div>
+        )
     )
 }

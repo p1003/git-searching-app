@@ -19,20 +19,18 @@ export const MainView: FC = () => {
     const [perPage, setPerPage] = useState(30);
     const [sort, setSort] = useState("");
     const [order, setOrder] = useState("");
-    const [stars, setStars] = useState("");
-    const [forks, setForks] = useState("");
 
     const {
         isLoading: isUsersLoading,
         isError: isUsersError,
         data: searchedUsers,
-    } = useSearch(searchValue, "users", currentPage, perPage, sort, order, "", "", "", setMaxUsersPage);
+    } = useSearch(searchValue, "users", currentPage, perPage, sort, order, setMaxUsersPage);
 
     const {
         isLoading: isReposLoading,
         isError: isReposError,
         data: searchedRepos,
-    } = useSearch(searchValue, "repositories", currentPage, perPage, sort, order, stars, forks, "", setMaxReposPage);
+    } = useSearch(searchValue, "repositories", currentPage, perPage, sort, order, setMaxReposPage);
 
 
     useEffect(() => {
@@ -59,8 +57,6 @@ export const MainView: FC = () => {
                     setPerPage={setPerPage}
                     setSort={setSort}
                     setOrder={setOrder}
-                    setStars={setStars}
-                    setForks={setForks}
                 />
                 <ViewChanger setView={setView} view1="Users" view2="Repositories" selectedView={view} />
             </div>

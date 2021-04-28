@@ -1,14 +1,6 @@
 .container {
-    max-width: 840px;
-    min-width: 640px;
     display: flex;
     justify-content: space-between;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.infosection {
-
 }
 
 .infoline {
@@ -20,4 +12,11 @@
 .btnsection {
     display: flex;
     align-items: center;
+}
+
+.repo{
+    max-width: 840px;
+    min-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
 }
