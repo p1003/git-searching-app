@@ -64,6 +64,10 @@ export const UserView: FC = () => {
                     <div className={styles.mainInfo}>
                         <img className={sharedStyles.UserImage} src={userData?.avatar_url} alt="logo" />
                         <b className={sharedStyles.TitleB}>{userData?.login}</b>
+                        <button
+                            className={sharedStyles.BasicElement}>
+                            <a className={sharedStyles.Link} href={userData?.html_url}>View on github</a>
+                        </button>
                     </div>
 
                     <ViewChanger setView={setView} view1={"Repositories " + userData?.public_repos} view2={"Followers " + userData?.followers} selectedView={view} />

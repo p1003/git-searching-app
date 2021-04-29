@@ -1,11 +1,15 @@
 .mainInfo {
     align-items: center;
-    margin-left: 20px;
     margin: 5px;
+    margin-left: 15px;
 }
 
 .commit_container {
     max-width: 440px;
+}
+
+.info_container {
+    max-width: 200px;
 }
 
 .infoline {

@@ -1,6 +1,6 @@
 import { Switch, Route } from 'react-router';
-import { MainView } from "./components/Views/MainView"
-import { UserView } from "./components/Views/UserView"
+import { MainView } from './components/Views/MainView'
+import { UserView } from './components/Views/UserView'
 import { RepoView } from './components/Views/RepoView';
 import styles from './App.module.css'
 
@@ -11,10 +11,10 @@ function App() {
     return (
         <div className={styles.MainBackground}>
             <Switch>
-                <Route path="/:username/:repoName">
+                <Route path='/:username/:repoName'>
                     <RepoView />
                 </Route>
-                <Route path="/:username">
+                <Route path='/:username'>
                     <UserView />
                 </Route>
                 <Route>

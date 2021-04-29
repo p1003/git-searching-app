@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
-import { useRepo, useRepoData } from "../../../API";
+import { useRepo, useRepoData, useFetch } from "../../../API";
 import { Paging } from "../../Paging"
 import { ViewChanger } from '../../ViewChanger';
 import { User } from "../User";
@@ -37,6 +37,8 @@ export const RepoView: FC = () => {
         isError: isCommitsError
     } = useRepoData(username, repoName, "commits", currentPage);
 
+    const { data: languages } = useFetch(repoData?.languages_url);
+
     useEffect(() => {
         console.log(maxConPage + "  " + repoContributors?.pages);
         if (repoContributors?.pages != null && repoContributors?.pages > maxConPage) {
@@ -70,8 +72,28 @@ export const RepoView: FC = () => {
                     </div>
 
                     <div className={styles.mainInfo}>
-                        <p className={sharedStyles.TitleB}>{repoData?.name}</p>
-                        <Link className={sharedStyles.Link} to={`/${repoData?.owner.login}`}>View owner {repoData?.owner.login}</Link>
+                        <p className={sharedStyles.TitleB}>{repoData?.full_name}</p>
+
+                        <button className={sharedStyles.BasicElement}>
+                            <Link className={sharedStyles.Link} to={`/${repoData?.owner.login}`}>View owner</Link>
+                        </button>
+                        <button
+                            className={sharedStyles.BasicElement}>
+                            <a className={sharedStyles.Link} href={repoData?.html_url}>View on github</a>
+                        </button>
+
+                        <div className={styles.info_container}>
+                            <div className={styles.infoline}>
+                                <p className={sharedStyles.plaintext}>Forks:</p>
+                                <p className={sharedStyles.plaintext}>{repoData?.forks}</p>
+                            </div>
+                            {languages && Object.keys(languages)[0] &&
+                                <div className={styles.infoline}>
+                                    <b className={sharedStyles.plaintext}>Lang:</b>
+                                    <b className={sharedStyles.plaintext}>{Object.keys(languages)[0]}</b>
+                                </div>}
+                        </div>
+
                     </div>
                     <ViewChanger setView={setView} view1="Contributors" view2="Commits" selectedView={view} />
 
@@ -97,8 +119,7 @@ export const RepoView: FC = () => {
                         ) : isCommitsError ? (
                             <p className={sharedStyles.TitleB}>Error occured</p>
                         ) : repoCommits?.array.map((commit: any, index: number) =>
-                            <div key={index}
-                                className={`${index % 2 === 0 ? sharedStyles.even : sharedStyles.odd} ${sharedStyles.resultBar}`}>
+                            <div key={index} className={`${index % 2 === 0 ? sharedStyles.even : sharedStyles.odd} ${sharedStyles.resultBar}`}>
                                 <div className={styles.commit_container}>
                                     <div className={styles.infoline}>
                                         <p className={sharedStyles.plaintext}>Author</p>
@@ -110,7 +131,7 @@ export const RepoView: FC = () => {
                                     </div>
                                     <div className={styles.infoline}>
                                         <p className={sharedStyles.plaintext}>Date</p>
-                                        <p className={sharedStyles.plaintext}>{commit.commit.author.date}</p>
+                                        <p className={sharedStyles.plaintext}>{commit.commit.author.date.replace("T"," ").replace("Z","")}</p>
                                     </div>
                                 </div>
                             </div>

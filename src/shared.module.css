@@ -64,7 +64,8 @@
     text-align: center;
     margin-left: 10px;
     margin-right: 10px;
-    min-height: 24px;
+    min-height: 28px;
+    font-size: 14px;
 }
 
 .Head {

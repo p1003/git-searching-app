@@ -71,7 +71,8 @@ export const useSearch = (
     );
 
 export const useUser = (username: string) =>
-    useQuery<{ login: string, avatar_url: string, public_repos: number, followers: number }>(
+    // useQuery<{ login: string, avatar_url: string, public_repos: number, followers: number }>(
+    useQuery(
         ["user", username],
         async () => {
             const response = await fetch(
@@ -117,7 +118,8 @@ export const useUserData = (username: string, type: string, page: number) =>
     );
 
 export const useRepo = (username: string, repoName: string) =>
-    useQuery<{ name: string, owner: any }>(
+    // useQuery<{ name: string, owner: any }>(
+    useQuery(
         ["repo", username, repoName],
         async () => {
             const response = await fetch(
@@ -152,8 +154,9 @@ export const useRepoData = (username: string, repoName: string, type: string, pa
             }
             const data = await response.json();
             const head = response.headers.get("link");
-            console.log(head);
+            // console.log(head);
             const num = head && parseInt(head.split(",")[1].replace(">", "").split(";")[0].split("=")[1]) || null
+            console.log(data);
             return { array: data, pages: num };
 
         },

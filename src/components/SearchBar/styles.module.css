@@ -1,23 +1,21 @@
-.SearchBar {
+.search_bar {
     padding: 10px;
     text-align: center;
 }
 
-.BasicSearch {
-    display: grid;
+.basic_search {
+    /* display: flex;  */
+     display: grid;
     grid-template-columns: auto 100px;
     grid-column-gap: 0px;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.Advanced {
-    display: grid;
-    grid-template-columns: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
+.advanced {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-top: 10px;
 }
 
@@ -25,21 +23,49 @@
     display: none;
 }
 
-.AdvancedOption {
+.advanced_input {
+    font-family: 'Helvetica';
+    color: aliceblue;
+    background-color: var(--backgroundgrey);
+    border: solid;
+    border-color: var(--blue);
+    border-radius: 8px;
+    border-width: 2px;
+    text-align: center;
+    margin-left: 10px;
+    min-height: 28px;
+    font-size: 14px;
+    margin-right: 110px;
+}
+
+.advanced_option {
     display: grid;
-    grid-template-columns: 80px auto;
+    grid-template-columns: 100px auto;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
-.AdvancedB {
+.advanced_b {
     font-family: 'Helvetica';
     color:aliceblue;
     text-align: left;
+    margin-left: 15px;
     margin-top: 8px;
     margin-bottom: 8px;
 }
 
-.Datalist{
-    width: 120px;
+.advanced_delimiter {
+    font-family: 'Helvetica';
+    color:aliceblue;
+    text-justify: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+datalist {
+    background-color: red;
+}
+
+option {
+    background-color: blue;
 }
