@@ -23,10 +23,6 @@ export const Repo: FC<Props> = props => {
                             <b className={sharedStyles.plaintext}>Owner:</b>
                             <b className={sharedStyles.plaintext}>{props.repo.owner.login}</b>
                         </div>
-                        {/* <div className={styles.infoline}>
-                        <b className={sharedStyles.plaintext}>Stars:</b>
-                        <b className={sharedStyles.plaintext}>{props.repo.stars}</b>
-                    </div> */}
                         <div className={styles.infoline}>
                             <b className={sharedStyles.plaintext}>Forks:</b>
                             <b className={sharedStyles.plaintext}>{props.repo.forks_count}</b>

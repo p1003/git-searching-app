@@ -84,7 +84,7 @@ export const SearchBar: FC<NavProps> = props => {
             </div>
             <div className={`${styles.advanced} ${!advanced && styles.hidden}`}>
 
-                <b className={styles.advanced_delimiter}>General Options</b>
+                <b className={styles.advanced_delimiter}>Search Options</b>
                 <OptionBar title='Per Page' type='number' placeholder='number from 1 to 100'
                     setValue={value => {
                         const val = parseInt(value);

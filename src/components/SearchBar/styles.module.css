@@ -4,8 +4,7 @@
 }
 
 .basic_search {
-    /* display: flex;  */
-     display: grid;
+    display: grid;
     grid-template-columns: auto 100px;
     grid-column-gap: 0px;
     margin-top: 10px;
